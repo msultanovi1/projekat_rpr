@@ -2,6 +2,10 @@ package ba.unsa.etf.rpr.domain;
 
 import java.util.Objects;
 
+/**
+ * Genre Java Bean
+ */
+
 public class Genre {
     private int id;
     private String name;
