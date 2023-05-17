@@ -65,7 +65,7 @@ public class Score {
     }
 
     @Override
-    public String toString() {
+    public String   toString() {
         return "Score{" +
                 "id=" + id +
                 ", score=" + score +
