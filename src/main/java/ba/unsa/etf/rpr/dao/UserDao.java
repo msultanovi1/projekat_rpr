@@ -4,7 +4,7 @@ import ba.unsa.etf.rpr.domain.User;
 
 import java.util.List;
 
-public interface UserDao {
+public interface UserDao extends Dao<User>{
     List<User> searchByName(String name);
 }
 
