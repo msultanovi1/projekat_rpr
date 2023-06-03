@@ -93,7 +93,7 @@ public class UserDaoSQLImpl implements UserDao{
             PreparedStatement stmt = this.connection.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
-                User user = new USer();
+                User user = new User();
                 user.setId(rs.getInt("id"));
                 user.setName(rs.getString("name"));
                 user.setAboutMe(rs.getString("aboutMe"));
