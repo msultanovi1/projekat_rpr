@@ -88,7 +88,7 @@ public class GenreDaoSQLImpl implements GenreDao{
     @Override
     public List<Genre> getAll() {
         String query = "SELECT * FROM Genre";
-        List<Genre> genres = new ArrayList<Genre>();
+        List<Genre> genres = new ArrayList<>();
         try{
             PreparedStatement stmt = this.connection.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
