@@ -12,7 +12,7 @@ public class GenreDaoSQLImpl implements GenreDao{
 
     public GenreDaoSQLImpl(){
         try{
-            this.connection = DriverManager.getConnection("");
+            this.connection = DataBaseDao.getInstance();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -41,17 +41,17 @@ public class GenreDaoSQLImpl implements GenreDao{
     }
 
     @Override
-    public Genre add(Genre item) {
+    public Genre add(Genre genre) {
         String insert = "INSERT INTO Genre(name) VALUES(?)";
         try{
             PreparedStatement stmt = this.connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, item.getName());
+            stmt.setString(1, genre.getName());
             stmt.executeUpdate();
 
             ResultSet rs = stmt.getGeneratedKeys();
             rs.next();
-            item.setId(rs.getInt(1));
-            return item;
+            genre.setId(rs.getInt(1));
+            return genre;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -62,7 +62,7 @@ public class GenreDaoSQLImpl implements GenreDao{
     public Genre update(Genre item) {
         String insert = "UPDATE Genre SET name = ? where id = ?";
         try{
-            PreparedStatement stmt = this.connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt = this.connection.prepareStatement(insert);
             stmt.setObject(1, item.getName());
             stmt.setObject(2, item.getId());
             stmt.executeUpdate();
@@ -75,9 +75,9 @@ public class GenreDaoSQLImpl implements GenreDao{
 
     @Override
     public void delete(int id) {
-        String insert = "DELETE FROM Genre WHERE id = ?";
+        String query = "DELETE FROM Genre WHERE id = ?";
         try{
-            PreparedStatement stmt = this.connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt = this.connection.prepareStatement(query);
             stmt.setObject(1, id);
             stmt.executeUpdate();
         }catch (SQLException e){
@@ -92,7 +92,7 @@ public class GenreDaoSQLImpl implements GenreDao{
         try{
             PreparedStatement stmt = this.connection.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
-            while (rs.next()){ // result set is iterator.
+            while (rs.next()){
                 Genre genre = new Genre();
                 genre.setId(rs.getInt("id"));
                 genre.setName(rs.getString("name"));
@@ -100,7 +100,7 @@ public class GenreDaoSQLImpl implements GenreDao{
             }
             rs.close();
         }catch (SQLException e){
-            e.printStackTrace(); // poor error handling
+            e.printStackTrace();
         }
         return genres;
     }

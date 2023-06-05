@@ -2,8 +2,6 @@ package ba.unsa.etf.rpr.dao;
 
 import ba.unsa.etf.rpr.domain.Book;
 import ba.unsa.etf.rpr.domain.Genre;
-import ba.unsa.etf.rpr.domain.Score;
-import ba.unsa.etf.rpr.domain.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,7 +13,7 @@ public class BookDaoSQLImpl implements BookDao{
 
     public BookDaoSQLImpl(){
         try{
-            this.connection = DriverManager.getConnection("");
+            this.connection = DataBaseDao.getInstance();
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -30,7 +28,7 @@ public class BookDaoSQLImpl implements BookDao{
             if(rs.next()){
                 Book book = new Book();
                 book.setId(rs.getInt("id"));
-                book.setName(rs.getNString("name"));
+                book.setName(rs.getString("name"));
                 book.setUIN(rs.getLong("UIN"));
                 book.setGenre(new GenreDaoSQLImpl().getById(rs.getInt("idGenre")));
                 rs.close();
@@ -45,17 +43,17 @@ public class BookDaoSQLImpl implements BookDao{
     }
 
     @Override
-    public Book add(Book item) {
+    public Book add(Book book) {
         try{
             PreparedStatement stmt = this.connection.prepareStatement("INSERT INTO Book(name, UIN, idGenre) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, item.getName());
-            stmt.setLong(2,item.getUIN());
-            stmt.setInt(3, item.getGenre().getId());
+            stmt.setString(1, book.getName());
+            stmt.setLong(2,book.getUIN());
+            stmt.setInt(3, book.getGenre().getId());
             stmt.executeUpdate();
             ResultSet rs = stmt.getGeneratedKeys();
             rs.next();
-            item.setId(rs.getInt(1));
-            return item;
+            book.setId(rs.getInt(1));
+            return book;
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -63,15 +61,15 @@ public class BookDaoSQLImpl implements BookDao{
     }
 
     @Override
-    public Book update(Book item) {
+    public Book update(Book book) {
         try{
             PreparedStatement stmt = this.connection.prepareStatement("UPDATE Book SET name = ?, UIN = ?, idGenre  = ? WHERE id = ?");
-            stmt.setInt(4, item.getId());
-            stmt.setString(1, item.getName());
-            stmt.setLong(2, item.getUIN());
-            stmt.setInt(3, item.getGenre().getId());
+            stmt.setInt(4, book.getId());
+            stmt.setString(1, book.getName());
+            stmt.setLong(2, book.getUIN());
+            stmt.setInt(3, book.getGenre().getId());
             stmt.executeUpdate();
-            return item;
+            return book;
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -99,6 +97,7 @@ public class BookDaoSQLImpl implements BookDao{
                 Book book = new Book();
                 book.setId(rs.getInt("id"));
                 book.setName(rs.getString("name"));
+                book.setUIN(rs.getLong("UIN"));
                 book.setGenre(new GenreDaoSQLImpl().getById(rs.getInt("idGenre")));
                 books.add(book);
             }
@@ -106,7 +105,7 @@ public class BookDaoSQLImpl implements BookDao{
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return null;
+        return books;
     }
 
     @Override
@@ -121,6 +120,7 @@ public class BookDaoSQLImpl implements BookDao{
                 book.setId(rs.getInt("id"));
                 book.setName(rs.getString("name"));
                 book.setUIN(rs.getLong("UIN"));
+                book.setGenre(new GenreDaoSQLImpl().getById(rs.getInt("idGenre")));
                 users.add(book);
             }
             rs.close();
@@ -153,38 +153,39 @@ public class BookDaoSQLImpl implements BookDao{
     }
 
     @Override
-    public List<Book> searchByUIN(long UIN) {
-        List<Book> books = new ArrayList<>();
+    public Book searchByUIN(long UIN) {
         try{
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Book WHERE idGenre = ?");
+            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Book WHERE UIN = ?");
             stmt.setLong(1, UIN);
             ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 Book book = new Book();
                 book.setId(rs.getInt("id"));
                 book.setName(rs.getString("name"));
-                book.setUIN(rs.getLong("UIN"));
-                books.add(book);
+                book.setUIN(UIN);
+                book.setGenre(new GenreDaoSQLImpl().getById(rs.getInt("idGenre")));
+                rs.close();
+                return book;
             }
-            rs.close();
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return books;
+        return null;
     }
 
     @Override
-    public List<Book> searchByScore(Score score) {
+    public List<Book> searchByScore(double score) {
         List<Book> books = new ArrayList<>();
         try{
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Book WHERE idScore = ?");
-            stmt.setInt(1, score.getId());
+            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Score WHERE score >= ?");
+            stmt.setDouble(1, score);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 Book book = new Book();
                 book.setId(rs.getInt("id"));
                 book.setName(rs.getString("name"));
                 book.setUIN(rs.getLong("UIN"));
+                book.setGenre(new GenreDaoSQLImpl().getById(rs.getInt("idGenre")));
                 books.add(book);
             }
             rs.close();

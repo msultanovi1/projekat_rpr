@@ -12,7 +12,7 @@ public interface BookDao extends Dao<Book>{
 
     List<Book> searchByGenre(Genre genre);
 
-    List<Book> searchByUIN(long UIN);
+    Book searchByUIN(long UIN);
 
-    List<Book> searchByScore(Score score);
+    List<Book> searchByScore(double score);
 }

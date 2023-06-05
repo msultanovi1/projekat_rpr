@@ -12,7 +12,7 @@ public class UserDaoSQLImpl implements UserDao{
 
     public UserDaoSQLImpl(){
         try{
-            this.connection = DriverManager.getConnection("", "", "");
+            this.connection = DataBaseDao.getInstance();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -28,9 +28,9 @@ public class UserDaoSQLImpl implements UserDao{
             if(rs.next()){
                 User user = new User();
                 user.setId(rs.getInt("id"));
-                user.setName(rs.getNString("name"));
-                user.setPassword(rs.getNString("password"));
-                user.setAboutMe(rs.getNString("aboutMe"));
+                user.setName(rs.getString("name"));
+                user.setPassword(rs.getString("password"));
+                user.setAboutMe(rs.getString("aboutMe"));
                 rs.close();
                 return user;
             }
@@ -44,15 +44,15 @@ public class UserDaoSQLImpl implements UserDao{
     }
 
     @Override
-    public User add(User item) {
+    public User add(User user) {
         try{
             PreparedStatement stmt = this.connection.prepareStatement("INSERT INTO User(name) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
-            stmt.setNString(1, item.getName());
+            stmt.setString(1, user.getName());
             stmt.executeUpdate();
             ResultSet rs = stmt.getGeneratedKeys();
             rs.next();
-            item.setId(rs.getInt(1));
-            return item;
+            user.setId(rs.getInt(1));
+            return user;
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -60,14 +60,14 @@ public class UserDaoSQLImpl implements UserDao{
     }
 
     @Override
-    public User update(User item) {
+    public User update(User user) {
         try{
-            PreparedStatement stmt = this.connection.prepareStatement("UPDATE User SET name = ? where id = ?", Statement.RETURN_GENERATED_KEYS);
-            stmt.setObject(1, item.getName());
-            stmt.setObject(2, item.getId());
-            stmt.setObject(3,item.getAboutMe());
+            PreparedStatement stmt = this.connection.prepareStatement("UPDATE User SET name = ?, aboutMe = ? where id = ? ");
+            stmt.setObject(1, user.getName());
+            stmt.setObject(3, user.getId());
+            stmt.setObject(2, user.getAboutMe());
             stmt.executeUpdate();
-            return item;
+            return user;
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -77,7 +77,7 @@ public class UserDaoSQLImpl implements UserDao{
     @Override
     public void delete(int id) {
         try{
-            PreparedStatement stmt = this.connection.prepareStatement("DELETE FROM User WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt = this.connection.prepareStatement("DELETE FROM User WHERE id = ?");
             stmt.setObject(1, id);
             stmt.executeUpdate();
         }catch (SQLException e){
@@ -88,7 +88,7 @@ public class UserDaoSQLImpl implements UserDao{
     @Override
     public List<User> getAll() {
         String query = "SELECT * FROM User";
-        List<User> users = new ArrayList<User>();
+        List<User> users = new ArrayList<>();
         try{
             PreparedStatement stmt = this.connection.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();

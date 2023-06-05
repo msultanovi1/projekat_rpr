@@ -2,7 +2,6 @@ package ba.unsa.etf.rpr.dao;
 
 import ba.unsa.etf.rpr.domain.Score;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,7 @@ public class ScoreDaoSQLImpl implements ScoreDao{
 
     public ScoreDaoSQLImpl(){
         try{
-            this.connection = DriverManager.getConnection("");
+            this.connection = DataBaseDao.getInstance();
         }catch (Exception e){
             e.printStackTrace();
         }
