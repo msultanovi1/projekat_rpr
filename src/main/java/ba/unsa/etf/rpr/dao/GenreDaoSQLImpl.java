@@ -60,9 +60,9 @@ public class GenreDaoSQLImpl implements GenreDao{
 
     @Override
     public Genre update(Genre item) {
-        String insert = "UPDATE Genre SET name = ? where id = ?";
+        String update = "UPDATE Genre SET name = ? where id = ?";
         try{
-            PreparedStatement stmt = this.connection.prepareStatement(insert);
+            PreparedStatement stmt = this.connection.prepareStatement(update);
             stmt.setObject(1, item.getName());
             stmt.setObject(2, item.getId());
             stmt.executeUpdate();
@@ -75,9 +75,9 @@ public class GenreDaoSQLImpl implements GenreDao{
 
     @Override
     public void delete(int id) {
-        String query = "DELETE FROM Genre WHERE id = ?";
+        String delete = "DELETE FROM Genre WHERE id = ?";
         try{
-            PreparedStatement stmt = this.connection.prepareStatement(query);
+            PreparedStatement stmt = this.connection.prepareStatement(delete);
             stmt.setObject(1, id);
             stmt.executeUpdate();
         }catch (SQLException e){
