@@ -1,7 +1,6 @@
 package ba.unsa.etf.rpr.dao;
 
 import ba.unsa.etf.rpr.domain.Author;
-import ba.unsa.etf.rpr.domain.Book;
 
 import java.sql.*;
 import java.util.ArrayList;

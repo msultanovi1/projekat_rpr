@@ -9,14 +9,17 @@ public class Book {
     private long UIN;
     private Genre genre;
 
+    private Author author;
+
     public Book() {
     }
 
-    public Book(int id, String name, long UIN, Genre genre) {
+    public Book(int id, String name, long UIN, Genre genre, Author author) {
         this.id = id;
         this.name = name;
         this.UIN = UIN;
         this.genre = genre;
+        this.author = author;
     }
 
     public int getId() {
@@ -51,17 +54,25 @@ public class Book {
         this.genre = genre;
     }
 
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return id == book.id && UIN == book.UIN && Objects.equals(name, book.name) && Objects.equals(genre, book.genre);
+        return id == book.id && UIN == book.UIN && Objects.equals(name, book.name) && Objects.equals(genre, book.genre) && Objects.equals(author, book.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, UIN, genre);
+        return Objects.hash(id, name, UIN, genre, author);
     }
 
     @Override
@@ -71,6 +82,7 @@ public class Book {
                 ", name='" + name + '\'' +
                 ", UIN=" + UIN +
                 ", genre=" + genre +
+                ", author=" + author +
                 '}';
     }
 }
