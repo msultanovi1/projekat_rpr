@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface StatusDao extends Dao<Status> {
 
-    List<Book> searchByStatus(String status);
+    List<Book> searchByUserAndStatus(String status, User user);
 /*
     List<Book> searchByScore(double score);
 

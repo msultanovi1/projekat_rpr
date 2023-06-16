@@ -7,17 +7,17 @@ public class Status {
     private int id;
     private String status;
     private double score;
-    private int idUser;
-    private int idBook;
+    private User user;
+    private Book book;
 
     public Status(){}
 
-    public Status(int id, String status, double score, int idUser, int idBook) {
+    public Status(int id, String status, double score, User user, Book book) {
         this.id = id;
         this.status = status;
         this.score = score;
-        this.idUser = idUser;
-        this.idBook = idBook;
+        this.user = user;
+        this.book = book;
     }
 
     public int getId() {
@@ -44,20 +44,20 @@ public class Status {
         this.score = score;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getIdBook() {
-        return idBook;
+    public Book getBook() {
+        return book;
     }
 
-    public void setIdBook(int idBook) {
-        this.idBook = idBook;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     @Override
@@ -65,12 +65,12 @@ public class Status {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Status status1 = (Status) o;
-        return id == status1.id && Double.compare(status1.score, score) == 0 && idUser == status1.idUser && idBook == status1.idBook && Objects.equals(status, status1.status);
+        return id == status1.id && Double.compare(status1.score, score) == 0 && Objects.equals(status, status1.status) && Objects.equals(user, status1.user) && Objects.equals(book, status1.book);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, status, score, idUser, idBook);
+        return Objects.hash(id, status, score, user, book);
     }
 
     @Override
@@ -79,8 +79,8 @@ public class Status {
                 "id=" + id +
                 ", status='" + status + '\'' +
                 ", score=" + score +
-                ", idUser=" + idUser +
-                ", idBook=" + idBook +
+                ", user=" + user +
+                ", book=" + book +
                 '}';
     }
 }

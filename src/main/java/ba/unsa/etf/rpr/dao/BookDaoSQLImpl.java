@@ -66,7 +66,7 @@ public class BookDaoSQLImpl implements BookDao{
     @Override
     public Book update(Book book) {
         try{
-            PreparedStatement stmt = this.connection.prepareStatement("UPDATE Book SET name = ?, UIN = ?, idGenre  = ?, id Author = ? WHERE id = ?");
+            PreparedStatement stmt = this.connection.prepareStatement("UPDATE Book SET name = ?, UIN = ?, idGenre  = ?, idAuthor = ? WHERE id = ?");
             stmt.setInt(5, book.getId());
             stmt.setString(1, book.getName());
             stmt.setLong(2, book.getUIN());
@@ -115,7 +115,7 @@ public class BookDaoSQLImpl implements BookDao{
 
     @Override
     public List<Book> searchByName(String name) {
-        List<Book> users = new ArrayList<>();
+        List<Book> books = new ArrayList<>();
         try{
             PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Book WHERE name = ?");
             stmt.setString(1, name);
@@ -127,13 +127,13 @@ public class BookDaoSQLImpl implements BookDao{
                 book.setUIN(rs.getLong("UIN"));
                 book.setGenre(new GenreDaoSQLImpl().getById(rs.getInt("idGenre")));
                 book.setAuthor(new AuthorDaoSQLImpl().getById(rs.getInt("idAuthor")));
-                users.add(book);
+                books.add(book);
             }
             rs.close();
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return users;
+        return books;
     }
 
     @Override
