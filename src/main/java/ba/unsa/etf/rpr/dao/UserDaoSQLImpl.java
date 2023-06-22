@@ -46,8 +46,10 @@ public class UserDaoSQLImpl implements UserDao{
     @Override
     public User add(User user) {
         try{
-            PreparedStatement stmt = this.connection.prepareStatement("INSERT INTO User(name) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt = this.connection.prepareStatement("INSERT INTO User(name, password, aboutMe) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, user.getName());
+            stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getAboutMe());
             stmt.executeUpdate();
             ResultSet rs = stmt.getGeneratedKeys();
             rs.next();
@@ -62,10 +64,11 @@ public class UserDaoSQLImpl implements UserDao{
     @Override
     public User update(User user) {
         try{
-            PreparedStatement stmt = this.connection.prepareStatement("UPDATE User SET name = ?, aboutMe = ? where id = ? ");
+            PreparedStatement stmt = this.connection.prepareStatement("UPDATE User SET name = ?, password = ?, aboutMe = ? where id = ? ");
             stmt.setObject(1, user.getName());
-            stmt.setObject(3, user.getId());
-            stmt.setObject(2, user.getAboutMe());
+            stmt.setObject(2, user.getPassword());
+            stmt.setObject(4, user.getId());
+            stmt.setObject(3, user.getAboutMe());
             stmt.executeUpdate();
             return user;
         }catch (SQLException e){
@@ -96,6 +99,7 @@ public class UserDaoSQLImpl implements UserDao{
                 User user = new User();
                 user.setId(rs.getInt("id"));
                 user.setName(rs.getString("name"));
+                user.setPassword(rs.getString("password"));
                 user.setAboutMe(rs.getString("aboutMe"));
                 users.add(user);
             }
@@ -117,6 +121,7 @@ public class UserDaoSQLImpl implements UserDao{
                 User user = new User();
                 user.setId(rs.getInt("id"));
                 user.setName(rs.getString("name"));
+                user.setPassword(rs.getString("password"));
                 user.setAboutMe(rs.getString("aboutMe"));
                 users.add(user);
             }

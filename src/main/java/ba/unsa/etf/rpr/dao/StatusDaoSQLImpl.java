@@ -67,7 +67,7 @@ public class StatusDaoSQLImpl implements StatusDao{
     @Override
     public Status update(Status status) {
         try{
-            PreparedStatement stmt = this.connection.prepareStatement("UPDATE Book SET status = ?, score = ?, idUser  = ?, idBook = ? WHERE id = ?");
+            PreparedStatement stmt = this.connection.prepareStatement("UPDATE Status SET status = ?, score = ?, idUser  = ?, idBook = ? WHERE id = ?");
             stmt.setInt(5, status.getId());
             stmt.setString(1, status.getStatus());
             stmt.setDouble(2, status.getScore());
