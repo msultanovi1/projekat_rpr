@@ -96,7 +96,7 @@ public class StatusDaoSQLImpl implements StatusDao{
     public List<Status> getAll() {
         List<Status> statuses = new ArrayList<>();
         try{
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT * from Book");
+            PreparedStatement stmt = this.connection.prepareStatement("SELECT * from Status");
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 Status status = new Status();

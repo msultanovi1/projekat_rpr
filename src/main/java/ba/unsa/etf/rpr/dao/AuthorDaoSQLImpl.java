@@ -108,7 +108,7 @@ public class AuthorDaoSQLImpl implements AuthorDao{
     public List<Author> searchByName(String name) {
         List<Author> authors = new ArrayList<>();
         try{
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Book WHERE name = ?");
+            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Author WHERE name = ?");
             stmt.setString(1, name);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
