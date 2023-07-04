@@ -9,6 +9,7 @@ import java.util.List;
 public class AuthorDaoSQLImpl implements AuthorDao{
 
     private Connection connection;
+    private static AuthorDaoSQLImpl instance = null;
 
     public AuthorDaoSQLImpl(){
         try{
@@ -16,6 +17,16 @@ public class AuthorDaoSQLImpl implements AuthorDao{
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static AuthorDaoSQLImpl getInstance() {
+        if(instance == null) instance = new AuthorDaoSQLImpl();
+        return instance;
+    }
+
+    public static void removeInstance(){
+        if(instance!=null)
+            instance = null;
     }
 
     @Override

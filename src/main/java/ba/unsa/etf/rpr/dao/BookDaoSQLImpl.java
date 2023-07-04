@@ -12,12 +12,24 @@ public class BookDaoSQLImpl implements BookDao{
 
     private Connection connection;
 
+    private static BookDaoSQLImpl instance = null;
+
     public BookDaoSQLImpl(){
         try{
             this.connection = DataBaseDao.getInstance();
         }catch(SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public static BookDaoSQLImpl getInstance() {
+        if(instance == null) instance = new BookDaoSQLImpl();
+        return instance;
+    }
+
+    public static void removeInstance(){
+        if(instance!=null)
+            instance = null;
     }
 
     @Override

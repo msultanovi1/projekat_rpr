@@ -8,6 +8,7 @@ import java.util.List;
 
 public class UserDaoSQLImpl implements UserDao{
 
+    private static UserDaoSQLImpl instance = null;
     private Connection connection;
 
     public UserDaoSQLImpl(){
@@ -16,6 +17,16 @@ public class UserDaoSQLImpl implements UserDao{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static UserDaoSQLImpl getInstance() {
+        if(instance == null) instance = new UserDaoSQLImpl();
+        return instance;
+    }
+
+    public static void removeInstance(){
+        if(instance!=null)
+            instance = null;
     }
 
     @Override

@@ -12,12 +12,24 @@ public class StatusDaoSQLImpl implements StatusDao{
 
     private Connection connection;
 
+    private static StatusDaoSQLImpl instance = null;
+
     public StatusDaoSQLImpl(){
         try{
             this.connection = DataBaseDao.getInstance();
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static StatusDaoSQLImpl getInstance() {
+        if(instance == null) instance = new StatusDaoSQLImpl();
+        return instance;
+    }
+
+    public static void removeInstance(){
+        if(instance!=null)
+            instance = null;
     }
 
     @Override

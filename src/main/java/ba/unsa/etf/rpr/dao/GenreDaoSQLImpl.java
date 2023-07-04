@@ -10,12 +10,24 @@ public class GenreDaoSQLImpl implements GenreDao{
 
     private Connection connection;
 
+    private static GenreDaoSQLImpl instance = null;
+
     public GenreDaoSQLImpl(){
         try{
             this.connection = DataBaseDao.getInstance();
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static GenreDaoSQLImpl getInstance() {
+        if(instance == null) instance = new GenreDaoSQLImpl();
+        return instance;
+    }
+
+    public static void removeInstance(){
+        if(instance!=null)
+            instance = null;
     }
 
     @Override
