@@ -142,4 +142,25 @@ public class UserDaoSQLImpl implements UserDao{
         }
         return users;
     }
+
+    @Override
+    public List<User> searchByNameAndPassword(String name, String password) {
+        List<User> users = new ArrayList<>();
+        try{
+            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM User WHERE name = ? AND password = ?");
+            stmt.setString(1, name);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setAboutMe(rs.getString("aboutMe"));
+                users.add(user);
+            }
+            rs.close();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return users;
+    }
 }
