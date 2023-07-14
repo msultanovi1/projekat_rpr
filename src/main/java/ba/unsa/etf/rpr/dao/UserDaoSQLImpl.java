@@ -1,22 +1,20 @@
 package ba.unsa.etf.rpr.dao;
 
 import ba.unsa.etf.rpr.domain.User;
+import ba.unsa.etf.rpr.exceptions.MyBookListException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-public class UserDaoSQLImpl implements UserDao{
+public class UserDaoSQLImpl extends AbstractDao<User> implements UserDao{
 
     private static UserDaoSQLImpl instance = null;
-    private Connection connection;
 
-    public UserDaoSQLImpl(){
-        try{
-            this.connection = DataBaseDao.getInstance();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private UserDaoSQLImpl(){
+        super("User");
     }
 
     public static UserDaoSQLImpl getInstance() {
@@ -30,137 +28,47 @@ public class UserDaoSQLImpl implements UserDao{
     }
 
     @Override
-    public User getById(int id) {
-        String query = "SELECT * FROM User WHERE id = ?";
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement(query);
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setName(rs.getString("name"));
-                user.setPassword(rs.getString("password"));
-                user.setAboutMe(rs.getString("aboutMe"));
-                rs.close();
-                return user;
-            }
-            else {
-                return null;
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
+    public User rowToObject(ResultSet rs) throws MyBookListException {
+        User user = new User();
+        try {
+            user.setId(rs.getInt("id"));
+            user.setName(rs.getString("name"));
+            user.setPassword(rs.getString("password"));
+            user.setAboutMe(rs.getString("aboutMe"));
         }
-        return null;
+        catch (SQLException error) {
+            throw new MyBookListException(error.getMessage(), error);
+        }
+        return user;
     }
 
     @Override
-    public User add(User user) {
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("INSERT INTO User(name, password, aboutMe) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, user.getName());
-            stmt.setString(2, user.getPassword());
-            stmt.setString(3, user.getAboutMe());
-            stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            rs.next();
-            user.setId(rs.getInt(1));
-            return user;
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public User update(User user) {
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("UPDATE User SET name = ?, password = ?, aboutMe = ? where id = ? ");
-            stmt.setObject(1, user.getName());
-            stmt.setObject(2, user.getPassword());
-            stmt.setObject(4, user.getId());
-            stmt.setObject(3, user.getAboutMe());
-            stmt.executeUpdate();
-            return user;
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public void delete(int id) {
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("DELETE FROM User WHERE id = ?");
-            stmt.setObject(1, id);
-            stmt.executeUpdate();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public List<User> getAll() {
-        String query = "SELECT * FROM User";
-        List<User> users = new ArrayList<>();
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-                User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setName(rs.getString("name"));
-                user.setPassword(rs.getString("password"));
-                user.setAboutMe(rs.getString("aboutMe"));
-                users.add(user);
-            }
-            rs.close();
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        return users;
+    public Map<String, Object> objectToRow(User user) {
+        Map<String, Object> tableRow = new LinkedHashMap<>();
+        tableRow.put("id", user.getId());
+        tableRow.put("name", user.getName());
+        tableRow.put("password", user.getPassword());
+        tableRow.put("aboutMe", user.getAboutMe());
+        return tableRow;
     }
 
     @Override
     public List<User> searchByName(String name) {
-        List<User> users = new ArrayList<>();
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM User WHERE name = ?");
-            stmt.setString(1, name);
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-                User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setName(rs.getString("name"));
-                user.setPassword(rs.getString("password"));
-                user.setAboutMe(rs.getString("aboutMe"));
-                users.add(user);
-            }
-            rs.close();
-        }catch(SQLException e){
-            e.printStackTrace();
+        try {
+            return super.executeQuery("SELECT * FROM User WHERE name = ?", new Object[]{name});
+        } catch (MyBookListException e) {
+            throw new RuntimeException(e);
         }
-        return users;
     }
 
     @Override
-    public List<User> searchByNameAndPassword(String name, String password) {
-        List<User> users = new ArrayList<>();
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM User WHERE name = ? AND password = ?");
-            stmt.setString(1, name);
-            stmt.setString(2, password);
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-                User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setAboutMe(rs.getString("aboutMe"));
-                users.add(user);
-            }
-            rs.close();
-        }catch(SQLException e){
-            e.printStackTrace();
+    public User searchByNameAndPassword(String name, String password) {
+        try {
+            return super.executeQueryUnique("SELECT * FROM User WHERE name = ? AND password = ?", new Object[]{name, password});
+        } catch (MyBookListException e) {
+            throw new RuntimeException(e);
         }
-        return users;
     }
+
+
 }

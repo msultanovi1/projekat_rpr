@@ -9,6 +9,7 @@ public class App
 {
     public static void main( String[] args ) {
 
+        /*
         UserDaoSQLImpl userDaoSQL = new UserDaoSQLImpl();
         BookDaoSQLImpl bookDaoSQL = new BookDaoSQLImpl();
         GenreDaoSQLImpl genreDaoSQL = new GenreDaoSQLImpl();
@@ -133,6 +134,8 @@ public class App
         statuses = statusDaoSQL.getAll();
 
         System.out.println("\nAfter deletion:\n" + books + '\n' + genres + '\n' + authors + '\n' + users + '\n' + statuses);
+        
+         */
 
 
     }

@@ -6,7 +6,7 @@ import java.util.Objects;
  * Genre Java Bean
  */
 
-public class Genre {
+public class Genre implements Idable{
     private int id;
     private String name;
 

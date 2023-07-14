@@ -2,7 +2,7 @@ package ba.unsa.etf.rpr.domain;
 
 import java.util.Objects;
 
-public class Status {
+public class Status implements Idable{
 
     private int id;
     private String status;

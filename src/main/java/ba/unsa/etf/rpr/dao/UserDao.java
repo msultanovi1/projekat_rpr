@@ -7,6 +7,6 @@ import java.util.List;
 public interface UserDao extends Dao<User>{
     List<User> searchByName(String name);
 
-    List<User> searchByNameAndPassword(String name, String password);
+    User searchByNameAndPassword(String name, String password);
 }
 
