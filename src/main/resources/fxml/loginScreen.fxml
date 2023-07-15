@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.controllers.LogInController">
+  <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="309.0" minWidth="10.0" prefWidth="132.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="391.0" minWidth="10.0" prefWidth="122.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="309.0" minWidth="10.0" prefWidth="196.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="391.0" minWidth="10.0" prefWidth="152.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="226.0" minHeight="10.0" prefHeight="142.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="226.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="168.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="196.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="196.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="226.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label alignment="BOTTOM_CENTER" prefHeight="123.0" prefWidth="600.0" text="Welcome to MY BOOK LIST" GridPane.columnSpan="4">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="630.0" GridPane.columnSpan="4" GridPane.rowIndex="1">
+           <font>
+               <Font size="18.0" />
+           </font>
+       </Label>
+      <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="263.0" text="Username:  " GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="username" alignment="CENTER" prefHeight="25.0" prefWidth="134.0" promptText="Username" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="260.0" text="Password:  " GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+       <PasswordField fx:id="password" alignment="CENTER" prefHeight="22.0" prefWidth="175.0" promptText="Password" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+      <Button fx:id="buttonLogIn" alignment="CENTER" mnemonicParsing="false" onAction="#userLogIn" prefHeight="32.0" prefWidth="89.0" text="Log In" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+   </children>
+</GridPane>
