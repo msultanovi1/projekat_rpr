@@ -15,7 +15,7 @@ public class LogInController extends WindowController{
 
 
     @FXML
-    public Button LogIn;
+    public Button buttonLogIn;
     @FXML
     public TextField username;
     @FXML
@@ -28,7 +28,7 @@ public class LogInController extends WindowController{
 
     public void userLogIn(){
         try {
-            openWindow("Profile", "/fxml/profileScreen.fxml", new ProfileController(new UserManager().getByNameAndPassword(username.getText().trim(), password.getText().trim())), (Stage)LogIn.getScene().getWindow(), false);
+            openWindow("Profile", "/fxml/profileScreen.fxml", new ProfileController(new UserManager().getByNameAndPassword(username.getText().trim(), password.getText().trim())), (Stage)buttonLogIn.getScene().getWindow(), false);
         }
         catch (MyBookListException exception) {
             openAlert(Alert.AlertType.ERROR, exception.getMessage());

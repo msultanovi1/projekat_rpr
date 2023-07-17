@@ -8,6 +8,14 @@ import java.util.List;
 
 public class UserManager implements Manager<User> {
 
+    private static UserManager instance = null;
+
+    public static UserManager getInstance() {
+        if (instance == null) {
+            instance = new UserManager();
+        }
+        return instance;
+    }
 
     @Override
     public User getById(int id) throws MyBookListException {

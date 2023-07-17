@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="365.0" prefWidth="555.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.controllers.ChangeController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="134.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" prefWidth="177.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="94.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="111.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="71.0" minHeight="0.0" prefHeight="22.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="104.0" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="81.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="81.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="81.0" minHeight="10.0" prefHeight="16.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+     <ButtonBar prefHeight="36.0" prefWidth="496.0" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="8">
+       <buttons>
+         <Button fx:id="buttonConfirm" defaultButton="true" mnemonicParsing="false" onAction="#changeNamePassword" text="Confirm" />
+         <Button fx:id="buttonCancel" cancelButton="true" minWidth="68.0" mnemonicParsing="false" onAction="#closeChangeScreen" prefHeight="9.0" prefWidth="77.0" text="Close" />
+       </buttons>
+       <GridPane.margin>
+         <Insets right="25.0" />
+       </GridPane.margin>
+     </ButtonBar>
+      <Label text="Previous username:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Label text="New username:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <Separator prefWidth="243.0" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="3" />
+      <Label prefHeight="17.0" prefWidth="125.0" text="Previous password:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Label text="New password:" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <Label text="Confirm password;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <Separator prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="7" />
+      <TextField fx:id="previousUsernameField" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <TextField fx:id="newUsernameField" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <PasswordField fx:id="previousPasswordField" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+      <PasswordField fx:id="newPasswordField" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+      <PasswordField fx:id="confirmedPasswordField" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+   </children>
+</GridPane>
