@@ -37,6 +37,7 @@ public class UserManager implements Manager<User> {
 
     @Override
     public void delete(int id) throws MyBookListException {
+        getById(id);
         DaoFactory.userDao().delete(id);
     }
 

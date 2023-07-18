@@ -41,7 +41,8 @@ public abstract class AbstractDao<Type extends Idable> implements Dao<Type>{
     }
 
     public Connection getConnection(){
-        return AbstractDao.connection;
+        createConnection();
+        return connection;
     }
 
     public abstract Type rowToObject(ResultSet rs) throws MyBookListException;

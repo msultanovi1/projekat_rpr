@@ -61,12 +61,8 @@ public class UserDaoSQLImpl extends AbstractDao<User> implements UserDao{
     }
 
     @Override
-    public User searchByNameAndPassword(String name, String password) {
-        try {
-            return super.executeQueryUnique("SELECT * FROM User WHERE name = ? AND password = ?", new Object[]{name, password});
-        } catch (MyBookListException e) {
-            throw new RuntimeException(e);
-        }
+    public User searchByNameAndPassword(String name, String password) throws MyBookListException{
+        return executeQueryUnique("SELECT * FROM User WHERE name = ? AND password = ?", new Object[]{name, password});
     }
 
 

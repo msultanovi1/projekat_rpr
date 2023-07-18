@@ -5,9 +5,12 @@ import ba.unsa.etf.rpr.domain.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.awt.*;
+
 
 public class ProfileController extends WindowController{
 
@@ -32,6 +35,10 @@ public class ProfileController extends WindowController{
         this.user = user;
     }
 
+    public void initialize(){
+        username.setText(user.getName());
+    }
+
     @FXML
     public void userLogOut(ActionEvent actionEvent) {
         openWindow("LogIn", "/fxml/loginScreen.fxml", new LogInController(), (Stage)buttonLogOut.getScene().getWindow(), false);
@@ -50,8 +57,10 @@ public class ProfileController extends WindowController{
     }
 
     public void openBookList(ActionEvent actionEvent) {
+        openWindow("LogIn", "/fxml/bookListScreen.fxml", new BookListController(user), (Stage)buttonBookList.getScene().getWindow(), false);
     }
 
     public void openFriendList(ActionEvent actionEvent) {
+        openAlert(Alert.AlertType.INFORMATION, "We still don't have friend list :(");
     }
 }

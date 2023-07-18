@@ -9,8 +9,9 @@ import java.util.List;
 
 public interface StatusDao extends Dao<Status> {
 
+
+    List<Status> searchByUser(User user);
     /*
-    List<Book> searchByUserAndStatus(User user, String status);
 
     List<Book> searchByScore(double score);
 
@@ -19,4 +20,5 @@ public interface StatusDao extends Dao<Status> {
     List<Book> searchByAuthor(Author author);
 
  */
+    Status searchById(int id);
 }

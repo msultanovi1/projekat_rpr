@@ -1,10 +1,12 @@
 package ba.unsa.etf.rpr.dao;
 
 import ba.unsa.etf.rpr.domain.Status;
+import ba.unsa.etf.rpr.domain.User;
 import ba.unsa.etf.rpr.exceptions.MyBookListException;
 
 import java.sql.*;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StatusDaoSQLImpl extends AbstractDao<Status> implements StatusDao{
@@ -51,6 +53,25 @@ public class StatusDaoSQLImpl extends AbstractDao<Status> implements StatusDao{
         tableRow.put("idUser", status.getUser().getId());
         tableRow.put("idBook", status.getBook().getId());
         return tableRow;
+    }
+
+
+    @Override
+    public List<Status> searchByUser(User user) {
+        try {
+            return super.executeQuery("SELECT * FROM Status WHERE idUser = ?", new Object[]{user.getId()});
+        } catch (MyBookListException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public Status searchById(int id) {
+        try {
+            return super.executeQueryUnique("SELECT * FROM Status WHERE id = ?", new Object[]{id});
+        } catch (MyBookListException e) {
+            throw new RuntimeException();
+        }
     }
 
 
