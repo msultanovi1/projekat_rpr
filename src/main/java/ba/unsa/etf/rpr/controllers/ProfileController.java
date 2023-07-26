@@ -4,10 +4,7 @@ import ba.unsa.etf.rpr.bussines.UserManager;
 import ba.unsa.etf.rpr.domain.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 
@@ -17,26 +14,28 @@ public class ProfileController extends WindowController{
     private final UserManager userManager = UserManager.getInstance();
 
     private User user;
-    @FXML
+
     public Label username;
-    @FXML
+
     public Button buttonLogOut;
-    @FXML
+
     public Button buttonBookList;
-    @FXML
+
     public Button buttonFriendList;
-    @FXML
+
     public Button buttonChange;
-    @FXML
-    public TextField aboutMe;
+
+    public TextArea aboutMe;
     
 
     public ProfileController(User user){
         this.user = user;
     }
 
+    @FXML
     public void initialize(){
         username.setText(user.getName());
+        aboutMe.setText(user.getAboutMe());
     }
 
     @FXML
@@ -57,7 +56,7 @@ public class ProfileController extends WindowController{
     }
 
     public void openBookList(ActionEvent actionEvent) {
-        openWindow("LogIn", "/fxml/bookListScreen.fxml", new BookListController(user), (Stage)buttonBookList.getScene().getWindow(), false);
+        openWindow("Book List", "/fxml/bookListScreen.fxml", new BookListController(user), (Stage)buttonBookList.getScene().getWindow(), false);
     }
 
     public void openFriendList(ActionEvent actionEvent) {

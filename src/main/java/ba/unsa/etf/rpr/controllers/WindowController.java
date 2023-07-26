@@ -37,7 +37,8 @@ public class WindowController {
             }
         }
         catch (IOException exception) {
-            openAlert(Alert.AlertType.ERROR, "Unable to open requested window|" + exception.getMessage());
+            //openAlert(Alert.AlertType.ERROR, "Unable to open requested window|" + exception.getMessage());
+            exception.printStackTrace();
             System.exit(-1);
         }
     }
@@ -58,6 +59,7 @@ public class WindowController {
         alert.initModality(Modality.WINDOW_MODAL);
         long numberOfWindows = Stage.getWindows().stream().filter(Window::isShowing).count();
         alert.initOwner(Stage.getWindows().stream().filter(Window::isShowing).skip(numberOfWindows - 1).findFirst().orElse(null));
-        alert.showAndWait();
+        //alert.showAndWait();
+        System.out.println(message);
     }
 }

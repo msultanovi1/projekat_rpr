@@ -52,10 +52,19 @@ public class BookListController extends WindowController{
     }
 
     @FXML
-    public void initialize() {
+    public void initialize() throws MyBookListException{
+
+        statuses = statusManager.searchByUser(user);
+
         idStatusColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        bookNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        bookUINColumn.setCellValueFactory(new PropertyValueFactory<>("uin"));
+        bookNameColumn.setCellValueFactory((tableData) -> {
+            SimpleStringProperty property = new SimpleStringProperty();
+            property.setValue(tableData.getValue().getBook().getName());
+            return property;
+        });
+
+        //bookAuthorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+        //bookGenreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
         bookAuthorColumn.setCellValueFactory((tableData) -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(tableData.getValue().getBook().getAuthor().getName());
@@ -66,12 +75,13 @@ public class BookListController extends WindowController{
             property.setValue(tableData.getValue().getBook().getGenre().getName());
             return property;
         });
-        bookStatusColumn.setCellValueFactory((tableData) -> {
-            SimpleStringProperty property = new SimpleStringProperty();
-            property.setValue(tableData.getValue().getStatus());
-            return property;
-        });
+        bookStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         bookScoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
+        bookStatusIdField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                bookStatusIdField.setText(newValue.replaceAll("\\D", ""));
+            }
+        });
         refreshAll();
     }
     @FXML
@@ -92,7 +102,7 @@ public class BookListController extends WindowController{
         try {
             String bookStatusIdFieldTxt = bookStatusIdField.getText().trim();
             if (bookStatusIdFieldTxt.isEmpty()) {
-                throw new MyBookListException("Provide an ID of a case to delete the corresponding case.");
+                throw new MyBookListException("Provide an ID of a book you wish to remove from your book list.");
             }
             int id = Integer.parseInt(bookStatusIdFieldTxt);
             Optional<ButtonType> result = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to remove the book with id of " + id, ButtonType.YES, ButtonType.NO).showAndWait();

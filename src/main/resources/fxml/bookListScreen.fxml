@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="815.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.controllers.BookListController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="815.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <GridPane prefHeight="98.0" prefWidth="771.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -27,7 +27,7 @@
                   <Insets left="25.0" />
                </GridPane.margin>
             </Button>
-            <Label prefHeight="35.0" prefWidth="246.0" text="My Book List" GridPane.columnSpan="2">
+            <Label prefHeight="35.0" prefWidth="251.0" text="My Book List" GridPane.columnSpan="2">
                <font>
                   <Font name="System Bold Italic" size="24.0" />
                </font>
@@ -55,15 +55,15 @@
       </GridPane>
    </top>
    <center>
-      <TableView prefHeight="338.0" prefWidth="750.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="statusTableView" prefHeight="338.0" prefWidth="750.0" BorderPane.alignment="CENTER">
         <columns>
-            <TableColumn prefWidth="57.0" text="ID" />
-          <TableColumn prefWidth="217.0" text="Book name" />
-          <TableColumn prefWidth="92.0" text="UIN" />
-            <TableColumn prefWidth="141.0" text="Author" />
-            <TableColumn prefWidth="129.0" text="Genre" />
-            <TableColumn minWidth="0.0" prefWidth="115.0" text="Status" />
-            <TableColumn prefWidth="59.0" text="Score" />
+            <TableColumn fx:id="idStatusColumn" prefWidth="57.0" text="ID" />
+          <TableColumn fx:id="bookNameColumn" prefWidth="217.0" text="Book name" />
+          <TableColumn fx:id="bookUINColumn" prefWidth="92.0" text="UIN" />
+            <TableColumn fx:id="bookAuthorColumn" prefWidth="141.0" text="Author" />
+            <TableColumn fx:id="bookGenreColumn" prefWidth="129.0" text="Genre" />
+            <TableColumn fx:id="bookStatusColumn" minWidth="0.0" prefWidth="115.0" text="Status" />
+            <TableColumn fx:id="bookScoreColumn" prefWidth="59.0" text="Score" />
         </columns>
       </TableView>
    </center>

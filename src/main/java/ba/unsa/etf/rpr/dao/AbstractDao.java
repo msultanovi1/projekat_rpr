@@ -16,35 +16,33 @@ public abstract class AbstractDao<Type extends Idable> implements Dao<Type>{
         createConnection();
     }
 
-    private static void createConnection() {
-        if(AbstractDao.connection==null) {
-            try {
-                Properties p = new Properties();
-                p.load(ClassLoader.getSystemResource("application.properties.sample").openStream());
-                String url = p.getProperty("db.connection_string");
-                String username = p.getProperty("db.username");
-                String password = p.getProperty("db.password");
-                connection = DriverManager.getConnection(url, username, password);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                Runtime.getRuntime().addShutdownHook(new Thread(){
-                    @Override
-                    public void run(){
-                        try{
-                            connection.close();
-                        } catch (SQLException e){
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            }
-        }
-    }
-
     public Connection getConnection(){
         createConnection();
         return connection;
+    }
+
+    private static void createConnection() {
+        try {
+            Properties properties = new Properties();
+            properties.load(ClassLoader.getSystemResource("application.properties.sample").openStream());
+            String url = properties.getProperty("db.connection_string");
+            String username = properties.getProperty("db.username");
+            String password = properties.getProperty("db.password");
+            connection = DriverManager.getConnection(url, username, password);
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        finally {
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                try {
+                    connection.close();
+                }
+                catch (SQLException exception) {
+                    exception.printStackTrace();
+                }
+            }));
+        }
     }
 
     public abstract Type rowToObject(ResultSet rs) throws MyBookListException;
@@ -52,7 +50,7 @@ public abstract class AbstractDao<Type extends Idable> implements Dao<Type>{
     public abstract Map<String, Object> objectToRow(Type object);
 
     public Type getById(int id) throws MyBookListException{
-        return executeQueryUnique("SELECT * FROM "+this.tableName+" WHERE id = ?", new Object[]{id});
+        return executeQueryUnique("SELECT * FROM "+ tableName+" WHERE id = ?", new Object[]{id});
     }
 
     public List<Type> getAll() throws MyBookListException{
@@ -60,32 +58,36 @@ public abstract class AbstractDao<Type extends Idable> implements Dao<Type>{
     }
 
     public List<Type> executeQuery(String query, Object[] parameters) throws MyBookListException{
+        List<Type> resultList = new ArrayList<>();
         try {
-            PreparedStatement stmt = getConnection().prepareStatement(query);
-            if (parameters != null){
-                for(int i = 1; i <= parameters.length; i++){
-                    stmt.setObject(i, parameters[i-1]);
+            PreparedStatement statement = getConnection().prepareStatement(query);
+            if (parameters != null) {
+                for (int i = 0; i < parameters.length; i = i + 1) {
+                    statement.setObject(i + 1, parameters[i]);
                 }
             }
-            ResultSet rs = stmt.executeQuery();
-            ArrayList<Type> resultList = new ArrayList<>();
-            while (rs.next()) {
-                resultList.add(rowToObject(rs));
+            try {
+                ResultSet rs = statement.executeQuery();
+                while (rs.next()) {
+                    resultList.add(rowToObject(rs));
+                }
             }
-
-            return resultList;
-        } catch (SQLException e) {
-            throw new MyBookListException((e.getMessage()), e);
+            finally {
+                statement.close();
+            }
         }
+        catch (SQLException e) {
+            throw new MyBookListException(e.getMessage(), e);
+        }
+        return resultList;
     }
 
     public Type executeQueryUnique(String query, Object[] parameters) throws MyBookListException{
         List<Type> result = executeQuery(query, parameters);
-        if (result != null && result.size() == 1){
-            return result.get(0);
-        }else{
-            throw new MyBookListException("Object does not exist");
+        if (result.isEmpty()) {
+            return null;
         }
+        return result.get(0);
     }
 
     public void delete(int id) throws MyBookListException{
@@ -94,6 +96,7 @@ public abstract class AbstractDao<Type extends Idable> implements Dao<Type>{
             PreparedStatement stmt = getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setObject(1, id);
             stmt.executeUpdate();
+            stmt.close();
         }catch (SQLException e){
             throw new MyBookListException((e.getMessage()), e);
         }
@@ -102,31 +105,25 @@ public abstract class AbstractDao<Type extends Idable> implements Dao<Type>{
     public Type add(Type item) throws MyBookListException{
         Map<String, Object> row = objectToRow(item);
         Map.Entry<String, String> columns = prepareInsertParts(row);
-
         StringBuilder builder = new StringBuilder();
         builder.append("INSERT INTO ").append(tableName);
         builder.append(" (").append(columns.getKey()).append(") ");
         builder.append("VALUES (").append(columns.getValue()).append(")");
 
         try{
-            PreparedStatement stmt = getConnection().prepareStatement(builder.toString(), Statement.RETURN_GENERATED_KEYS);
-            // bind params. IMPORTANT treeMap is used to keep columns sorted so params are bind correctly
-            int counter = 1;
-            for (Map.Entry<String, Object> entry: row.entrySet()) {
-                if (entry.getKey().equals("id")) continue; // skip ID
-                stmt.setObject(counter, entry.getValue());
-                counter++;
+            PreparedStatement statement = prepareStatement(builder.toString(), row);
+            try (statement) {
+                statement.executeUpdate();
+                ResultSet rs = statement.getGeneratedKeys();
+                rs.next();
+                item.setId(rs.getInt(1));
             }
-            stmt.executeUpdate();
-
-            ResultSet rs = stmt.getGeneratedKeys();
-            rs.next(); // we know that there is one key
-            item.setId(rs.getInt(1)); //set id to return it back */
-
-            return item;
-        }catch (SQLException e){
+        }
+        catch (SQLException e){
             throw new MyBookListException(e.getMessage(), e);
         }
+        return item;
+
     }
 
     private Map.Entry<String, String> prepareInsertParts(Map<String, Object> row) {
@@ -135,55 +132,58 @@ public abstract class AbstractDao<Type extends Idable> implements Dao<Type>{
 
         int counter = 0;
         for (Map.Entry<String, Object> entry: row.entrySet()) {
-            counter++;
-            if (entry.getKey().equals("id")) continue;
-            columns.append(entry.getKey());
-            questions.append("?");
-            if (row.size() != counter) {
-                columns.append(",");
-                questions.append(",");
+            if (counter != 0) {
+                columns.append(entry.getKey());
+                questions.append("?");
+                if (counter != row.size() - 1) {
+                    columns.append(", ");
+                    questions.append(", ");
+                }
             }
+            counter = counter + 1;
         }
         return new AbstractMap.SimpleEntry<>(columns.toString(), questions.toString());
     }
 
-    public Type update(Type item) throws MyBookListException{
-        Map<String, Object> row = objectToRow(item);
-        String updateColumns = prepareUpdateParts(row);
-        StringBuilder builder = new StringBuilder();
-        builder.append("UPDATE ")
-                .append(tableName)
-                .append(" SET ")
-                .append(updateColumns)
-                .append(" WHERE id = ?");
-
-        try{
-            PreparedStatement stmt = getConnection().prepareStatement(builder.toString());
-            int counter = 1;
-            for (Map.Entry<String, Object> entry: row.entrySet()) {
-                if (entry.getKey().equals("id")) continue; // skip ID
-                stmt.setObject(counter, entry.getValue());
-                counter++;
-            }
-            stmt.setObject(counter, item.getId());
-            stmt.executeUpdate();
-            return item;
-        }catch (SQLException e){
-            throw new MyBookListException(e.getMessage(), e);
+    public void update(Type item) throws MyBookListException{
+        Map<String,Object> tableRow = objectToRow(item);
+        String updateColumns = prepareUpdateParts(tableRow);
+        StringBuilder query = new StringBuilder();
+        query.append("UPDATE ").append(tableName).append(" SET ").append(updateColumns).append(" WHERE id = ?");
+        try {
+            PreparedStatement statement = prepareStatement(query.toString(), tableRow);
+            statement.setObject(tableRow.size(), item.getId());
+            statement.executeUpdate();
+            statement.close();
+        }
+        catch (SQLException exception) {
+            throw new MyBookListException(exception.getMessage(), exception);
         }
     }
 
+    private PreparedStatement prepareStatement(String query, Map<String,Object> tableRow) throws SQLException {
+        PreparedStatement statement = getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        int counter = 0;
+        for (Map.Entry<String,Object> entry : tableRow.entrySet()) {
+            if (counter != 0) {
+                statement.setObject(counter, entry.getValue());
+            }
+            counter = counter + 1;
+        }
+        return statement;
+    }
     private String prepareUpdateParts(Map<String, Object> row) {
         StringBuilder columns = new StringBuilder();
 
         int counter = 0;
         for (Map.Entry<String, Object> entry: row.entrySet()) {
-            counter++;
-            if (entry.getKey().equals("id")) continue;
-            columns.append(entry.getKey()).append("= ?");
-            if (row.size() != counter) {
-                columns.append(",");
+            if (counter != 0) {
+                columns.append(entry.getKey()).append(" = ?");
+                if (counter != row.size() - 1) {
+                    columns.append(", ");
+                }
             }
+            counter = counter + 1;
         }
         return columns.toString();
     }

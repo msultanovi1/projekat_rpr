@@ -10,7 +10,7 @@ public interface Dao<Type> {
 
     Type add(Type item) throws MyBookListException;
 
-    Type update(Type item) throws MyBookListException;
+    void update(Type item) throws MyBookListException;
 
     void delete(int id) throws MyBookListException;
 

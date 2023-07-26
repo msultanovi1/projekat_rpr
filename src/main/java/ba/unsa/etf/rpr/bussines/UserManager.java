@@ -57,17 +57,12 @@ public class UserManager implements Manager<User> {
 
     public User getByNameAndPassword(String name, String password) throws MyBookListException{
         try {
-            if (checkAdmin(name, password)) {
-                return null;
+            checkNameAndPassword(name, password);
+            User user = DaoFactory.userDao().searchByNameAndPassword(name, password);
+            if (user == null) {
+                throw new MyBookListException("No matches for provided name and password in database found.");
             }
-            else {
-                checkNameAndPassword(name, password);
-                User user = DaoFactory.userDao().searchByNameAndPassword(name, password);
-                if (user == null) {
-                    throw new MyBookListException("No matches for provided name and password in database found.");
-                }
-                return user;
-            }
+            return user;
         }
         catch (MyBookListException exception) {
             throw new MyBookListException("Unsuccessful login|" + exception.getMessage());
@@ -97,6 +92,6 @@ public class UserManager implements Manager<User> {
     }
 
     private boolean checkAdmin(String name, String password) {
-        return name.equalsIgnoreCase("admin") && password.equalsIgnoreCase("sifra123");
+        return name.equalsIgnoreCase("admin") && password.equalsIgnoreCase("sifraadmina");
     }
 }
