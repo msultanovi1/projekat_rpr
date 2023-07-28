@@ -48,10 +48,10 @@ public class ProfileController extends WindowController{
         String name = user.getName();
         openWindow("Change profile info", "/fxml/changeScreen.fxml", new ChangeController(user), (Stage)buttonChange.getScene().getWindow(), true);
         if (user.getName().equals(name)) {
-            openAlert(Alert.AlertType.INFORMATION, "Update unnecessary|No changes in credentials detected.");
+            openAlert(Alert.AlertType.INFORMATION, "Update unnecessary. No changes in credentials detected.");
         }
         else {
-            openAlert(Alert.AlertType.INFORMATION, "Update successful|Successfully changed credentials.");
+            openAlert(Alert.AlertType.INFORMATION, "Update successful. Successfully changed credentials.");
         }
     }
 

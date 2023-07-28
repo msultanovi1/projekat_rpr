@@ -2,11 +2,10 @@ package ba.unsa.etf.rpr.controllers;
 
 import ba.unsa.etf.rpr.bussines.StatusManager;
 import ba.unsa.etf.rpr.bussines.UserManager;
-import ba.unsa.etf.rpr.domain.Author;
-import ba.unsa.etf.rpr.domain.Genre;
 import ba.unsa.etf.rpr.domain.Status;
 import ba.unsa.etf.rpr.domain.User;
 import ba.unsa.etf.rpr.exceptions.MyBookListException;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -14,10 +13,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static java.lang.String.valueOf;
 
 
 public class BookListController extends WindowController{
@@ -62,9 +61,11 @@ public class BookListController extends WindowController{
             property.setValue(tableData.getValue().getBook().getName());
             return property;
         });
-
-        //bookAuthorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
-        //bookGenreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
+        bookUINColumn.setCellValueFactory((tableData) -> {
+            SimpleObjectProperty<Long> property = new SimpleObjectProperty<>();
+            property.setValue(tableData.getValue().getBook().getUIN());
+            return property;
+        });
         bookAuthorColumn.setCellValueFactory((tableData) -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(tableData.getValue().getBook().getAuthor().getName());
@@ -94,7 +95,7 @@ public class BookListController extends WindowController{
     }
     @FXML
     public void addEditBookInfo(ActionEvent actionEvent) {
-        openWindow("Edit MyBookList", "/fxml/editBookListScreen.fxml", new EditController(user), (Stage)buttonAddEditBook.getScene().getWindow(), true);
+        openWindow("Edit MyBookList", "/fxml/editBookListScreenNew.fxml", new EditController(user), (Stage)buttonAddEditBook.getScene().getWindow(), true);
         refreshAll();
     }
     @FXML

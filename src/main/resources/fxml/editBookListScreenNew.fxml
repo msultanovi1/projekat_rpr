@@ -13,10 +13,10 @@
                <children>
                    <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="451.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
                        <columnConstraints>
-                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="176.0" minWidth="10.0" prefWidth="139.0" />
-                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.0" minWidth="0.0" prefWidth="84.0" />
-                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="286.0" minWidth="10.0" prefWidth="218.0" />
-                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="10.0" prefWidth="95.0" />
+                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="176.0" minWidth="10.0" prefWidth="83.0" />
+                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="152.0" minWidth="0.0" prefWidth="90.0" />
+                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="212.0" />
+                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.0" minWidth="10.0" prefWidth="163.0" />
                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="3.0" prefWidth="19.0" />
                        </columnConstraints>
                        <rowConstraints>
@@ -61,16 +61,16 @@
                                    <Insets right="15.0" />
                                </GridPane.margin></Label>
                            <TextField fx:id="idAddField" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                           <TextField fx:id="bookNameAddField" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                           <ComboBox fx:id="bookNameAddBoxField" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                            <TextField fx:id="UINAddField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                            <TextField fx:id="authorAddField" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                            <TextField fx:id="genreAddField" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                           <ComboBox fx:id="statusAddField" editable="true" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                           <ComboBox fx:id="scoreAddField" editable="true" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                           <ComboBox fx:id="statusAddBoxField" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                           <ComboBox fx:id="scoreAddBoxField" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                            <ButtonBar GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="8">
                                <buttons>
-                                   <Button fx:id="buttonConfirmAdd" defaultButton="true" mnemonicParsing="false" text="Confirm" />
-                                   <Button fx:id="buttonCloseAdd" cancelButton="true" mnemonicParsing="false" text="Close" />
+                                   <Button fx:id="buttonConfirmAdd" defaultButton="true" mnemonicParsing="false" onAction="#confirmAdd" text="Confirm" />
+                                   <Button fx:id="buttonCloseAdd" cancelButton="true" mnemonicParsing="false" onAction="#closeAdd" text="Close" />
                                </buttons>
                                <GridPane.margin>
                                    <Insets top="10.0" />
@@ -84,6 +84,11 @@
                               <Insets left="15.0" />
                            </GridPane.margin>
                         </Label>
+                        <Button fx:id="buttonAddNewBook" mnemonicParsing="false" onAction="#addNewBook" text="Add new book" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="15.0" />
+                           </GridPane.margin>
+                        </Button>
                        </children>
                        <padding>
                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -98,10 +103,10 @@
                <children>
                    <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="451.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
                        <columnConstraints>
-                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="176.0" minWidth="10.0" prefWidth="139.0" />
+                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="176.0" minWidth="10.0" prefWidth="89.0" />
                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.0" minWidth="0.0" prefWidth="84.0" />
-                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="286.0" minWidth="10.0" prefWidth="218.0" />
-                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="10.0" prefWidth="95.0" />
+                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="286.0" minWidth="10.0" prefWidth="212.0" />
+                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="171.0" minWidth="10.0" prefWidth="165.0" />
                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="3.0" prefWidth="19.0" />
                        </columnConstraints>
                        <rowConstraints>
@@ -145,17 +150,17 @@
                                <GridPane.margin>
                                    <Insets right="15.0" />
                                </GridPane.margin></Label>
-                           <TextField fx:id="idEditField" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                           <TextField fx:id="bookNameEditField" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                           <ComboBox fx:id="idEditBoxField" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                           <TextField fx:id="bookNameEditBoxField" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                            <TextField fx:id="UINEditField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                            <TextField fx:id="authorEditField" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                            <TextField fx:id="genreEditField" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                           <ComboBox fx:id="statusEditField" editable="true" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                           <ComboBox fx:id="scoreEditField" editable="true" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                           <ComboBox fx:id="statusEditBoxField" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                           <ComboBox fx:id="scoreEditBoxField" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                            <ButtonBar GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="8">
                                <buttons>
-                                   <Button fx:id="buttonConfirmEdit" defaultButton="true" mnemonicParsing="false" text="Confirm" />
-                                   <Button fx:id="buttonCloseEdit" cancelButton="true" mnemonicParsing="false" text="Close" />
+                                   <Button fx:id="buttonConfirmEdit" defaultButton="true" mnemonicParsing="false" onAction="#confirmEdit" text="Confirm" />
+                                   <Button fx:id="buttonCloseEdit" cancelButton="true" mnemonicParsing="false" onAction="#closeEdit" text="Close" />
                                </buttons>
                                <GridPane.margin>
                                    <Insets top="10.0" />
@@ -179,4 +184,3 @@
     </Tab>
   </tabs>
 </TabPane>
-
