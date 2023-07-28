@@ -62,9 +62,14 @@ public class BookListController extends WindowController{
             property.setValue(tableData.getValue().getBook().getName());
             return property;
         });
+    /*
+        bookUINColumn.setCellValueFactory((tableData) -> {
+            SimpleStringProperty property = new SimpleStringProperty();
+            property.setValue(tableData.getValue().getBook().getUIN());
+            return property;
+        });
 
-        //bookAuthorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
-        //bookGenreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
+     */
         bookAuthorColumn.setCellValueFactory((tableData) -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(tableData.getValue().getBook().getAuthor().getName());
@@ -94,7 +99,7 @@ public class BookListController extends WindowController{
     }
     @FXML
     public void addEditBookInfo(ActionEvent actionEvent) {
-        openWindow("Edit MyBookList", "/fxml/editBookListScreen.fxml", new EditController(user), (Stage)buttonAddEditBook.getScene().getWindow(), true);
+        openWindow("Edit MyBookList", "/fxml/editBookListScreenNew.fxml", new EditController(user), (Stage)buttonAddEditBook.getScene().getWindow(), true);
         refreshAll();
     }
     @FXML
