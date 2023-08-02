@@ -1,11 +1,7 @@
 package ba.unsa.etf.rpr.controllers;
 
-import ba.unsa.etf.rpr.bussines.StatusManager;
-import ba.unsa.etf.rpr.bussines.UserManager;
-import ba.unsa.etf.rpr.domain.Book;
-import ba.unsa.etf.rpr.domain.Genre;
-import ba.unsa.etf.rpr.domain.Status;
-import ba.unsa.etf.rpr.domain.User;
+import ba.unsa.etf.rpr.bussines.*;
+import ba.unsa.etf.rpr.domain.*;
 import ba.unsa.etf.rpr.exceptions.MyBookListException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -25,11 +21,17 @@ public class EditController extends WindowController{
 
     private final UserManager userManager = UserManager.getInstance();
     private final StatusManager statusManager = StatusManager.getInstance();
+    private final BookManager bookManager = BookManager.getInstance();
+    private final GenreManager genreManager = GenreManager.getInstance();
+    private final AuthorManager authorManager = AuthorManager.getInstance();
     private final User user;
+    private List<Genre> genres;
     private List<Status> statuses;
+    private List<Author> authors;
+    private List<Book> books;
 
-    private String[] readingStatus = {"read", "reading", "to be read", "on hold"};
-    private Double[] bookScore = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0};
+    private final String[] readingStatus = {"read", "reading", "to be read", "on hold"};
+    private final Double[] bookScore = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0};
 
     public ComboBox<Integer> idEditBoxField;
     public TextField bookNameEditBoxField;
@@ -58,7 +60,9 @@ public class EditController extends WindowController{
         this.user = user;
         try {
             statuses = statusManager.searchByUser(user);
-
+            genres = genreManager.getAll();
+            authors = authorManager.getAll();
+            books = bookManager.getAll();
         }catch (MyBookListException exception){
             openAlert(Alert.AlertType.ERROR, "Unexpected error occured|" + exception.getMessage());
         }
@@ -108,7 +112,7 @@ public class EditController extends WindowController{
                 UINAddField.setText(newValue.replaceAll("\\D", ""));
             }
         });
-
+        bookNameAddBoxField.getItems().addAll(String.valueOf(books));
         //bookNameAddBoxField.setItems(FXCollections.observableList(statuses.stream().map(Status::getBook).collect(toList())));
 
         emptyAllTextFields();
@@ -128,19 +132,27 @@ public class EditController extends WindowController{
     public void confirmEdit(ActionEvent actionEvent) {
         try{
             String idEditBoxFieldText = String.valueOf(idEditBoxField.getValue());
+            if (idEditBoxFieldText.isEmpty()) {
+                throw new MyBookListException("ID field left empty.");
+            }
+
             String bookNameEditBoxFieldText = bookNameEditBoxField.getText().trim();
             String UINEditFieldText = UINEditField.getText().trim();
             String genreEditFieldText = genreEditField.getText().trim();
             String authorEditFieldText = authorEditField.getText().trim();
             String statusEditBoxFieldText = statusEditBoxField.getValue();
             String scoreEditBoxFieldText = String.valueOf(scoreEditBoxField.getValue());
-            if (idEditBoxFieldText.isEmpty()) {
-                throw new MyBookListException("ID field left empty.");
-            }
-            /*
-            Book book = new Book(Integer.parseInt(idEditBoxFieldText), bookNameEditBoxFieldText, Long.parseLong(UINEditFieldText), genreEditFieldText, authorEditFieldText) ;
+
+            Genre genre = genres.stream().filter(person -> person.getName().equalsIgnoreCase(genreEditFieldText)).findFirst().orElseThrow(() -> new MyBookListException("Provided genre does not exist."));
+            Author author = authors.stream().filter(person -> person.getName().equalsIgnoreCase(authorEditFieldText)).findFirst().orElseThrow(() -> new MyBookListException("Provided author does not exist."));
+
+            Book book = new Book(Integer.parseInt(idEditBoxFieldText), bookNameEditBoxFieldText, Long.parseLong(UINEditFieldText), genre, author) ;
             Status status = new Status(Integer.parseInt(idEditBoxFieldText), statusEditBoxFieldText, Double.parseDouble(scoreEditBoxFieldText), user, book);
-        */
+
+            statusManager.update(status);
+            openAlert(Alert.AlertType.INFORMATION, "Editing accomplished|Successfully updated book status with ID of " + status.getId());
+            emptyAllTextFields();
+
         }catch (MyBookListException exception){
             openAlert(Alert.AlertType.ERROR, "Encountered a problem during list editing." + exception.getMessage());
         }

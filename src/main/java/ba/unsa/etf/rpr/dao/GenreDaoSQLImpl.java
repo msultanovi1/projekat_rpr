@@ -5,6 +5,7 @@ import ba.unsa.etf.rpr.exceptions.MyBookListException;
 
 import java.sql.*;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GenreDaoSQLImpl extends AbstractDao<Genre> implements GenreDao {
@@ -47,4 +48,12 @@ public class GenreDaoSQLImpl extends AbstractDao<Genre> implements GenreDao {
         return tableRow;
     }
 
+    @Override
+    public List<Genre> searchByName(String name) {
+        try {
+            return super.executeQuery("SELECT * FROM Genre WHERE name = ?", new Object[]{name});
+        } catch (MyBookListException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
