@@ -11,6 +11,8 @@ public interface StatusDao extends Dao<Status> {
 
 
     List<Status> searchByUser(User user);
+    List<Status> searchByBook(Book book);
+    Status searchByUserAndBook(User user, Book book);
     /*
 
     List<Book> searchByScore(double score);

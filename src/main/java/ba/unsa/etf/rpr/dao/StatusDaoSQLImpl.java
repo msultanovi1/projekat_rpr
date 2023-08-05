@@ -1,5 +1,6 @@
 package ba.unsa.etf.rpr.dao;
 
+import ba.unsa.etf.rpr.domain.Book;
 import ba.unsa.etf.rpr.domain.Status;
 import ba.unsa.etf.rpr.domain.User;
 import ba.unsa.etf.rpr.exceptions.MyBookListException;
@@ -60,6 +61,24 @@ public class StatusDaoSQLImpl extends AbstractDao<Status> implements StatusDao{
     public List<Status> searchByUser(User user) {
         try {
             return super.executeQuery("SELECT * FROM Status WHERE idUser = ?", new Object[]{user.getId()});
+        } catch (MyBookListException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public List<Status> searchByBook(Book book) {
+        try {
+            return super.executeQuery("SELECT * FROM Status WHERE idBook = ?", new Object[]{book.getId()});
+        } catch (MyBookListException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public Status searchByUserAndBook(User user, Book book) {
+        try {
+            return super.executeQueryUnique("SELECT * FROM Status WHERE idUser = ? AND idBook = ?", new Object[]{user.getId(), book.getId()});
         } catch (MyBookListException e) {
             throw new RuntimeException();
         }

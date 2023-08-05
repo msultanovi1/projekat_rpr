@@ -57,7 +57,7 @@ public class BookManager implements Manager<Book>{
         DaoFactory.bookDao().add(item);
     }
 
-    public List<Book> searchByName(String name) throws MyBookListException {
+    public Book searchByName(String name) throws MyBookListException {
         return DaoFactory.bookDao().searchByName(name);
     }
 

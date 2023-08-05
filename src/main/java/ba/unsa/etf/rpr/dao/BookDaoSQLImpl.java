@@ -57,9 +57,9 @@ public class BookDaoSQLImpl extends AbstractDao<Book> implements BookDao{
     }
 
     @Override
-    public List<Book> searchByName(String name) {
+    public Book searchByName(String name) {
         try {
-            return super.executeQuery("SELECT * FROM Book WHERE name = ?", new Object[]{name});
+            return super.executeQueryUnique("SELECT * FROM Book WHERE name = ?", new Object[]{name});
         } catch (MyBookListException e) {
             throw new RuntimeException();
         }

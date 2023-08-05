@@ -1,6 +1,7 @@
 package ba.unsa.etf.rpr.bussines;
 
 import ba.unsa.etf.rpr.dao.DaoFactory;
+import ba.unsa.etf.rpr.domain.Book;
 import ba.unsa.etf.rpr.domain.Status;
 import ba.unsa.etf.rpr.domain.User;
 import ba.unsa.etf.rpr.exceptions.MyBookListException;
@@ -57,5 +58,13 @@ public class StatusManager implements Manager<Status>{
 
     public List<Status> searchByUser(User user) throws MyBookListException {
         return DaoFactory.statusDao().searchByUser(user);
+    }
+
+    public List<Status> searchByBook(Book book) throws MyBookListException {
+        return DaoFactory.statusDao().searchByBook(book);
+    }
+
+    public Status searchByUserAndBook(User user, Book book) throws MyBookListException {
+        return DaoFactory.statusDao().searchByUserAndBook(user, book);
     }
 }

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0" prefWidth="496.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="107.0" minWidth="10.0" prefWidth="58.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="135.0" minWidth="10.0" prefWidth="94.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="228.0" minWidth="10.0" prefWidth="198.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="155.0" minWidth="10.0" prefWidth="145.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="65.0" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="72.0" minHeight="10.0" prefHeight="57.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label prefHeight="35.0" prefWidth="288.0" text="Add new book:" GridPane.columnSpan="3">
+         <font>
+            <Font name="System Italic" size="24.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="30.0" />
+         </GridPane.margin></Label>
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="112.0" text="Book name:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets right="15.0" />
+         </GridPane.margin></Label>
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="125.0" text="Book UIN:" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets right="15.0" />
+         </GridPane.margin></Label>
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="101.0" text="Book author:" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets right="15.0" />
+         </GridPane.margin></Label>
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="149.0" text="Book genre:" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets right="15.0" />
+         </GridPane.margin></Label>
+       <ButtonBar GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+           <buttons>
+               <Button fx:id="buttonConfirmBookAdd" defaultButton="true" mnemonicParsing="false" onAction="#confirmBookAdd" text="Confirm" />
+               <Button fx:id="buttonCloseBookAdd" cancelButton="true" mnemonicParsing="false" onAction="#closeBookAdd" text="Close" />
+           </buttons>
+           <GridPane.margin>
+               <Insets right="30.0" top="10.0" />
+           </GridPane.margin>
+       </ButtonBar>
+      <TextField fx:id="addBookName" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <TextField fx:id="addBookUIN" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <Button fx:id="buttonAddNewGenre" mnemonicParsing="false" onAction="#addNewGenre" text="Add new genre" GridPane.columnIndex="3" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets left="15.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="buttonAddNewAthor" mnemonicParsing="false" onAction="#addNewAuthor" text="Add new author" GridPane.columnIndex="3" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets left="15.0" />
+         </GridPane.margin>
+      </Button>
+      <ComboBox fx:id="addBookAuthor" editable="true" prefHeight="25.0" prefWidth="230.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+      <ComboBox fx:id="addBookGenre" editable="true" prefHeight="25.0" prefWidth="236.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+   </children>
+</GridPane>

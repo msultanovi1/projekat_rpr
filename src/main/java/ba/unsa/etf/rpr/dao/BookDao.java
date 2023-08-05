@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BookDao extends Dao<Book>{
 
-    List<Book> searchByName(String name);
+    Book searchByName(String name);
 
     List<Book> searchByGenre(Genre genre);
 
