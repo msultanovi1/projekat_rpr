@@ -111,6 +111,7 @@ public class BookListController extends WindowController{
                 statusManager.delete(Integer.parseInt(bookStatusIdFieldTxt));
                 openAlert(Alert.AlertType.INFORMATION, "Deletion success|choosen book successfully removed from your book list.");
                 refreshAll();
+                bookStatusIdField.setText("");
             }
         }
         catch (MyBookListException exception) {

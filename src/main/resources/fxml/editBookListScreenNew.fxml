@@ -81,7 +81,7 @@
                               <Font name="System Bold Italic" size="24.0" />
                            </font>
                            <GridPane.margin>
-                              <Insets left="15.0" />
+                              <Insets left="50.0" />
                            </GridPane.margin>
                         </Label>
                         <Button fx:id="buttonAddNewBook" mnemonicParsing="false" onAction="#addNewBook" text="Add new book" GridPane.columnIndex="3" GridPane.rowIndex="2">

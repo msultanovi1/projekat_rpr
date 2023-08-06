@@ -70,6 +70,16 @@ public class EditController extends WindowController{
 
     @FXML
     public void initialize(){
+        try {
+            statuses = statusManager.searchByUser(user);
+            genres = genreManager.getAll();
+            authors = authorManager.getAll();
+            books = bookManager.getAll();
+        }
+        catch(MyBookListException e){
+            openAlert(Alert.AlertType.ERROR, "Unable to access database" + e.getMessage());
+        }
+
         idAddField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 idAddField.setText(newValue.replaceAll("\\D", ""));
@@ -125,7 +135,6 @@ public class EditController extends WindowController{
             if(!bookNameAddBoxFieldText.isEmpty() && !newValue){
                 try{
                     Book book = bookManager.searchByName(bookNameAddBoxFieldText);
-                    Status status = statusManager.searchByUserAndBook(user, book);
                     idAddField.setText("55");
                     UINAddField.setText(String.valueOf(book.getUIN()));
                     authorAddField.setText(book.getAuthor().getName());
@@ -151,10 +160,6 @@ public class EditController extends WindowController{
             String genreAddFieldText = genreAddField.getText().trim();
             String authorAddFieldText = authorAddField.getText().trim();
             String statusAddBoxFieldText = statusAddBoxField.getValue();
-            if(!statusAddBoxFieldText.equals("read")){
-                scoreAddBoxField.setEditable(false);
-                String scoreAddBoxFieldText = "/";
-            }
             String scoreAddBoxFieldText = String.valueOf(scoreAddBoxField.getValue());
 
             Genre genre = genres.stream().filter(person -> person.getName().equalsIgnoreCase(genreAddFieldText)).findFirst().orElseThrow(() -> new MyBookListException("Provided genre does not exist."));
@@ -178,7 +183,15 @@ public class EditController extends WindowController{
     }
 
     public void addNewBook(ActionEvent actionEvent) {
-        openWindow("Add new book", "/fxml/addNewBookScreen.fxml", new AddNewBookController(), (Stage)buttonAddNewBook.getScene().getWindow(), true);
+        openWindow("Add new book", "/fxml/addNewBookScreen.fxml", new AddNewBookController(), (Stage) buttonAddNewBook.getScene().getWindow(), true);
+        try {
+            books = bookManager.getAll();
+        } catch (MyBookListException e) {
+            openAlert(Alert.AlertType.ERROR, "Unable to access database" + e.getMessage());
+
+        }
+        bookNameAddBoxField.setItems(FXCollections.observableList(books.stream().map(Book::getName).collect(toList())));
+
     }
 
     public void confirmEdit(ActionEvent actionEvent) {
@@ -222,5 +235,13 @@ public class EditController extends WindowController{
         genreEditField.setText("");
         statusEditBoxField.setValue("");
         scoreEditBoxField.setValue(null);
+
+        idAddField.setText("");
+        bookNameAddBoxField.setValue("");
+        UINAddField.setText("");
+        authorAddField.setText("");
+        genreAddField.setText("");
+        statusAddBoxField.setValue("");
+        scoreAddBoxField.setValue(null);
     }
 }

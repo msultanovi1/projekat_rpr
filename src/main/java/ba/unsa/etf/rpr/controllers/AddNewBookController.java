@@ -68,6 +68,9 @@ public class AddNewBookController extends WindowController{
             }
             Genre genreAdd = new Genre(55, addBookGenreText);
             genreManager.add(genreAdd);
+            genres.add(genreAdd);
+            addBookGenre.getItems().add(genreAdd.getName());
+            openAlert(Alert.AlertType.INFORMATION, "Addition success|Succesfully added new genre with ID of " + genreAdd.getId() + " to database.");
         }catch (MyBookListException exception){
             openAlert(Alert.AlertType.ERROR, "Encountered a problem during adding a genre to database." + exception.getMessage());
         }
@@ -82,6 +85,9 @@ public class AddNewBookController extends WindowController{
             }
             Author authorAdd = new Author(55, addBookAuthorText);
             authorManager.add(authorAdd);
+            authors.add(authorAdd);
+            addBookAuthor.getItems().add(authorAdd.getName());
+            openAlert(Alert.AlertType.INFORMATION, "Addition success|Succesfully added new author with ID of " + authorAdd.getId() + " to database.");
         }catch (MyBookListException exception){
             openAlert(Alert.AlertType.ERROR, "Encountered a problem during adding an author to database." + exception.getMessage());
         }
@@ -107,17 +113,20 @@ public class AddNewBookController extends WindowController{
                 throw new MyBookListException("Book author field left empty.");
             }
 
-            Genre genre = new Genre(55, addBookGenreText);
-            Author author = new Author(55, addBookAuthorText);
+            Genre genre = genres.stream().filter(person -> person.getName().equalsIgnoreCase(addBookGenreText)).findFirst().orElseThrow(() -> new MyBookListException("Provided genre does not exist."));
+            Author author = authors.stream().filter(person -> person.getName().equalsIgnoreCase(addBookAuthorText)).findFirst().orElseThrow(() -> new MyBookListException("Provided author does not exist."));
             Book book = new Book(55, addBookNameText, Long.parseLong(addBookUINText), genre, author);
             bookManager.add(book);
 
+            openAlert(Alert.AlertType.INFORMATION, "Addition success|Succesfully added new book with ID of " + book.getId() + " to database.");
+
         }catch (MyBookListException exception){
-            openAlert(Alert.AlertType.ERROR, "Encountered a problem during adding a book to database." + exception.getMessage());
+            openAlert(Alert.AlertType.ERROR, "Encountered a problem while adding a book to database." + exception.getMessage());
         }
     }
 
     public void closeBookAdd(ActionEvent actionEvent) {
         closeWindow(buttonCloseBookAdd);
     }
+
 }
