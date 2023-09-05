@@ -1,12 +1,11 @@
 package ba.unsa.etf.rpr.controllers;
 
-import ba.unsa.etf.rpr.bussines.AuthorManager;
-import ba.unsa.etf.rpr.bussines.BookManager;
-import ba.unsa.etf.rpr.bussines.GenreManager;
+import ba.unsa.etf.rpr.business.AuthorManager;
+import ba.unsa.etf.rpr.business.BookManager;
+import ba.unsa.etf.rpr.business.GenreManager;
 import ba.unsa.etf.rpr.domain.Author;
 import ba.unsa.etf.rpr.domain.Book;
 import ba.unsa.etf.rpr.domain.Genre;
-import ba.unsa.etf.rpr.domain.Status;
 import ba.unsa.etf.rpr.exceptions.MyBookListException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;

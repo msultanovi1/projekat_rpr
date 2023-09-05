@@ -1,9 +1,7 @@
-package ba.unsa.etf.rpr.bussines;
+package ba.unsa.etf.rpr.business;
 
 import ba.unsa.etf.rpr.dao.DaoFactory;
 import ba.unsa.etf.rpr.domain.Genre;
-import ba.unsa.etf.rpr.domain.Status;
-import ba.unsa.etf.rpr.domain.User;
 import ba.unsa.etf.rpr.exceptions.MyBookListException;
 
 import java.util.List;

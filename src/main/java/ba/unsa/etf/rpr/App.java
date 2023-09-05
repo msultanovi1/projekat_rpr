@@ -1,142 +1,160 @@
 package ba.unsa.etf.rpr;
 
-import ba.unsa.etf.rpr.dao.*;
-import ba.unsa.etf.rpr.domain.*;
+import ba.unsa.etf.rpr.business.AuthorManager;
+import ba.unsa.etf.rpr.business.BookManager;
+import ba.unsa.etf.rpr.business.GenreManager;
+import ba.unsa.etf.rpr.business.StatusManager;
+import ba.unsa.etf.rpr.business.UserManager;
+import ba.unsa.etf.rpr.domain.Author;
+import ba.unsa.etf.rpr.domain.Book;
+import ba.unsa.etf.rpr.domain.Genre;
+import ba.unsa.etf.rpr.domain.Status;
+import ba.unsa.etf.rpr.domain.User;
+import ba.unsa.etf.rpr.exceptions.MyBookListException;
+import org.apache.commons.cli.*;
 
+import javax.swing.text.html.Option;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 public class App
 {
-    public static void main( String[] args ) {
+    /*
+    private static final org.apache.commons.cli.Option addUser = new org.apache.commons.cli.Option("addUser", true, "Add a new user to the database (1 argument - name (String))");
+    private static final org.apache.commons.cli.Option deleteUser = new org.apache.commons.cli.Option("deleteUser", true, "Delete an existing user from the database (1 argument - id (int))");
+    private static final org.apache.commons.cli.Option getAllUsers = new org.apache.commons.cli.Option("getAllUsers", false, "Get all users from the database (0 arguments)");
+    private static final org.apache.commons.cli.Option addBook = new org.apache.commons.cli.Option("addBook", true, "Add a new book to the database (5 arguments - look them up with showBookArguments)");
+    private static final org.apache.commons.cli.Option deleteBook = new org.apache.commons.cli.Option("deleteBook", true, "Delete an existing book from the database (1 argument - id (int))");
+    private static final org.apache.commons.cli.Option getAllBooks = new org.apache.commons.cli.Option("getAllBooks", false, "Get all books from the database (0 arguments)");
+    private static final org.apache.commons.cli.Option showBookArguments = new org.apache.commons.cli.Option("showBookArguments", false, "Shows all arguments needed to enter to create a new book (0 arguments)");
+    private static final org.apache.commons.cli.Option showVerdicts = new org.apache.commons.cli.Option("showVerdicts", false, "Shows all valid verdicts (0 arguments)");
+    private static final UserManager userManager = UserManager.getInstance();
+    private static final BookManager bookManager = BookManager.getInstance();
 
-        /*
-        UserDaoSQLImpl userDaoSQL = new UserDaoSQLImpl();
-        BookDaoSQLImpl bookDaoSQL = new BookDaoSQLImpl();
-        GenreDaoSQLImpl genreDaoSQL = new GenreDaoSQLImpl();
-        AuthorDaoSQLImpl authorDaoSQL = new AuthorDaoSQLImpl();
-        StatusDaoSQLImpl statusDaoSQL = new StatusDaoSQLImpl();
-
-
-        Genre sciFi = genreDaoSQL.add( new Genre(1, "science fiction") );
-        Genre magRel = genreDaoSQL.add( new Genre(2, "magical realism") );
-        Genre fiction = genreDaoSQL.add( new Genre(3, "fiction") );
-        Genre novel = genreDaoSQL.add( new Genre(4, "novel") );
-        Genre horror = genreDaoSQL.add( new Genre(5, "horror") );
-        Genre novella = genreDaoSQL.add( new Genre(6, "novella") );
-        Genre fairyTale = genreDaoSQL.add( new Genre(7, "fairy tale") );
-        Genre mystery = genreDaoSQL.add( new Genre(8, "mystery") );
-
-        Author yokoTawada = authorDaoSQL.add( new Author(1, "Yoko Tawada") );
-        Author toshikazuKawaguchi = authorDaoSQL.add( new Author(2, "Toshikazu Kawaguchi") );
-        Author erinMorgenstern = authorDaoSQL.add( new Author(3, "Erin Morgenstern") );
-        Author sallyRooney = authorDaoSQL.add( new Author(4, "Sally Rooney") );
-        Author mattHaig = authorDaoSQL.add( new Author(5, "Matt Haig") );
-        Author pauloCoelho = authorDaoSQL.add( new Author(6, "Paulo Coelho") );
-        Author leilaMottlay = authorDaoSQL.add( new Author(7, "Leila Mottlay") );
-        Author hanyaYanagihara = authorDaoSQL.add( new Author(8, "Hanya Yanagihara") );
-        Author claireKeegan = authorDaoSQL.add( new Author(9, "Claire Keegan") );
-        Author guillermoFunke = authorDaoSQL.add( new Author(10, "Guillermo del Toro Gornelia Funke") );
-        Author branokoCopic = authorDaoSQL.add( new Author(11, "Branko Copic") );
-        Author jKRowling = authorDaoSQL.add( new Author(12, "J. K. Rowling") );
-
-
-        Book book1 = bookDaoSQL.add( new Book(1, "The last children of Tokyo", 7647843, sciFi, yokoTawada) );
-        Book book2 = bookDaoSQL.add( new Book(2, "Before the coffee gets cold", 4378938, magRel, toshikazuKawaguchi) );
-        Book book3 = bookDaoSQL.add( new Book(3, "The starless sea", 3268239, fiction, erinMorgenstern) );
-        Book book4 = bookDaoSQL.add( new Book(4, "Normal people", 6473829, novel, sallyRooney) );
-        Book book5 = bookDaoSQL.add( new Book(5, "The midnight library", 7466323, fiction, mattHaig) );
-        Book book6 = bookDaoSQL.add( new Book(6, "The Alchemist", 1234321, novel, pauloCoelho) );
-        Book book7 = bookDaoSQL.add( new Book(7, "Nightcrawling", 6756458, horror, leilaMottlay) );
-        Book book8 = bookDaoSQL.add( new Book(8, "A little life", 9998876, novel, hanyaYanagihara) );
-        Book book9 = bookDaoSQL.add( new Book(9, "Foster", 8765436, novella, claireKeegan) );
-        Book book10 = bookDaoSQL.add( new Book(10, "Pan's labyrinth", 1277024, fairyTale, guillermoFunke) );
-        Book book11 = bookDaoSQL.add( new Book(11, "Ježeva kućica" , 2311693, fiction, branokoCopic) );
-        Book book12 = bookDaoSQL.add( new Book(12, "Harry Potter and the Sorcerer's Stone", 4637969, fiction, jKRowling) );
-
-        User klipovaca = userDaoSQL.add( new User(1, "Kemal Lipovaca", " ", " ") );
-        User abalesic = userDaoSQL.add( new User(2, "Ajna Balesic", "", "") );
-        User msultanovic = userDaoSQL.add( new User(3, "Minela Sultanovic", "", "") );
-        User esultanovic = userDaoSQL.add( new User(4, "Erna Sultanovic", "","") );
-
-
-        Status status1 = statusDaoSQL.add( new Status(1, "read", 10, abalesic, book11) );
-        Status status2 = statusDaoSQL.add( new Status(2, "read", 10, klipovaca, book6) );
-        Status status3 = statusDaoSQL.add( new Status(3, "reading", 0, msultanovic, book8) );
-        Status status4 = statusDaoSQL.add( new Status(4, "reading", 0, abalesic, book4) );
-        Status status5 = statusDaoSQL.add( new Status(5, "read", 8, klipovaca, book12) );
-        Status status6 = statusDaoSQL.add( new Status(6, "read", 7.5, esultanovic, book5) );
-        Status status7 = statusDaoSQL.add( new Status(7, "reading", 9, esultanovic, book3) );
-
-
-
-        System.out.println("\nkemo ima id" + klipovaca.getId());
-        System.out.println("\najna ima id" + abalesic.getId());
-        System.out.println("\nja imam id" + msultanovic.getId());
-        System.out.println("\nerna ima id" + esultanovic.getId());
-
-        List<Book> books = bookDaoSQL.getAll();
-        List<Genre> genres = genreDaoSQL.getAll();
-        List<Author> authors = authorDaoSQL.getAll();
-        List<User> users = userDaoSQL.getAll();
-        List<Status> statuses = statusDaoSQL.getAll();
-
-        System.out.println("\nBooks:");
-        for(Book book : books)
-            System.out.println(book);
-        System.out.println("\nGenres:");
-        for(Genre genre : genres)
-            System.out.println(genre);
-        System.out.println("\nAuthors:");
-        for(Author author : authors)
-            System.out.println(author);
-        System.out.println("\nUsers:");
-        for(User user : users)
-            System.out.println(user);
-        System.out.println("\nStatuses:");
-        for(Status status : statuses)
-            System.out.println(status);
-
-        Genre probaGenre = genreDaoSQL.add( new Genre(55, "proba123") );
-        Author probaAuthor = authorDaoSQL.add( new Author(55, "proba123") );
-        Book probaBook = bookDaoSQL.add( new Book(55, "Proba Book 123", 7633843, probaGenre, probaAuthor) );
-        User probaUser = userDaoSQL.add( new User(55, "Proba User", " ", " ") );
-        Status probaStatus = statusDaoSQL.add( new Status(55, "proba123", 5, probaUser, probaBook) );
-
-        Genre testGenre = new Genre(18, "test genre");
-        Author testAuthor = new Author(26, "test author");
-        Book testBook = new Book(27, "test book", 5555555, testGenre, testAuthor);
-        User testUser = new User(12, "test user", "","");
-        Status testStatus = new Status(18, "test status", 3, testUser, testBook);
-
-        genreDaoSQL.update(testGenre);
-        authorDaoSQL.update(testAuthor);
-        bookDaoSQL.update(testBook);
-        userDaoSQL.update(testUser);
-        statusDaoSQL.update(testStatus);
-
-
-        System.out.println("\nAfter update:\n" + genreDaoSQL.getById(55) + '\n' +
-                authorDaoSQL.getById(55) + '\n' + bookDaoSQL.getById(55) + '\n' +
-                userDaoSQL.getById(55) + '\n' + statusDaoSQL.getById(55));
-
-
-        authorDaoSQL.delete(26);
-        genreDaoSQL.delete(18);
-        bookDaoSQL.delete(27);
-        statusDaoSQL.delete(18);
-        userDaoSQL.delete(12);
-
-
-        books = bookDaoSQL.getAll();
-        genres = genreDaoSQL.getAll();
-        authors = authorDaoSQL.getAll();
-        users = userDaoSQL.getAll();
-        statuses = statusDaoSQL.getAll();
-
-        System.out.println("\nAfter deletion:\n" + books + '\n' + genres + '\n' + authors + '\n' + users + '\n' + statuses);
-        
-         */
-
-
+    private static Options loadOptions() {
+        Options options = new Options();
+        options.addOption(addUser);
+        options.addOption(deleteUser);
+        options.addOption(getAllUsers);
+        options.addOption(addBook);
+        options.addOption(deleteBook);
+        options.addOption(getAllBooks);
+        options.addOption(showBookArguments);
+        return options;
     }
+    private static void printFormattedOptions(Options options) {
+        HelpFormatter helpFormatter = new HelpFormatter();
+        PrintWriter printWriter = new PrintWriter(System.out);
+        helpFormatter.printUsage(printWriter, 150, "java -jar projekat_rpr-cli-jar-with-dependencies.jar -option ditto arguments");
+        helpFormatter.printOptions(printWriter, 150, options, 2, 7);
+        printWriter.close();
+    }
+
+    public static void main(String[] args ){
+
+        try {
+            Options options = loadOptions();
+            CommandLineParser commandLineParser = new DefaultParser();
+            CommandLine commandLine = commandLineParser.parse(options, args);
+
+            //System.out.println(commandLine.getArgList().get(1));
+            //System.out.println(args);
+
+            if (commandLine.hasOption(showDepartments.getOpt()) || commandLine.hasOption(showDepartments.getLongOpt())) {
+                System.out.println("Hera iam");
+                DepartmentManager departmentManager = new DepartmentManager();
+                System.out.println(departmentManager.getAll());
+            } else if (commandLine.hasOption(addDepartment.getOpt()) || commandLine.hasOption(addDepartment.getLongOpt())) {
+                DepartmentManager departmentManager = new DepartmentManager();
+                departmentManager.add(new Department(1, commandLine.getArgList().get(0)));
+            } else if (commandLine.hasOption(deleteDepartment.getOpt()) || commandLine.hasOption(deleteDepartment.getLongOpt())) {
+                DepartmentManager departmentManager = new DepartmentManager();
+                departmentManager.delete(Integer.parseInt(commandLine.getArgList().get(0)));
+            } else if (commandLine.hasOption(showDoctors.getOpt()) || commandLine.hasOption(showDoctors.getLongOpt())) {
+                DoctorManager doctorManager = new DoctorManager();
+                System.out.println(doctorManager.getAll());
+            } else if (commandLine.hasOption(addDoctor.getOpt()) || commandLine.hasOption(addDoctor.getLongOpt())) {
+                String name , pass, depName;
+                if(commandLine.getArgList().size() == 4){
+                    name = commandLine.getArgList().get(0) + " " + commandLine.getArgList().get(1);
+                    pass = commandLine.getArgList().get(2);
+                    depName = commandLine.getArgList().get(3);
+                } else {
+                    name = commandLine.getArgList().get(0);
+                    pass = commandLine.getArgList().get(1);
+                    depName = commandLine.getArgList().get(2);
+                }
+                DoctorManager doctorManager = new DoctorManager();
+                DepartmentManager departmentManager = new DepartmentManager();
+                List<Department> department = departmentManager.getByName(depName);
+                if (department.size() == 0) {
+                    System.out.println("Department with name " + depName + " does not exists");
+                } else if (department.size() != 0) {
+                    doctorManager.add(new Doctor(1, name, pass, department.get(0)));
+                    System.out.println("You've successfully added a new Doctor");
+                }
+            } else if (commandLine.hasOption(deleteDoctor.getOpt()) || commandLine.hasOption(deleteDoctor.getLongOpt())) {
+                DoctorManager doctorManager = new DoctorManager();
+                doctorManager.delete(Integer.parseInt(commandLine.getArgList().get(0)));
+            } else if (commandLine.hasOption(showPatients.getOpt()) || commandLine.hasOption(showPatients.getLongOpt())) {
+                PatientManager patientManager = new PatientManager();
+                System.out.println(patientManager.getAll());
+            } else if (commandLine.hasOption(addPatient.getOpt()) || commandLine.hasOption(addPatient.getLongOpt())) {
+                String name, pass;
+                Long UIN;
+                int id;
+                if(commandLine.getArgList().size() == 5){
+                    name = commandLine.getArgList().get(0) + " " + commandLine.getArgList().get(1);
+                    pass = commandLine.getArgList().get(2);
+                    UIN = Long.parseLong(commandLine.getArgList().get(3));
+                    id = Integer.parseInt(commandLine.getArgList().get(4));
+                } else {
+                    name = commandLine.getArgList().get(0) + " " + commandLine.getArgList().get(1);
+                    pass = commandLine.getArgList().get(2);
+                    UIN = Long.parseLong(commandLine.getArgList().get(3));
+                    id = Integer.parseInt(commandLine.getArgList().get(4));
+                }
+                PatientManager patientManager = new PatientManager();
+                DoctorManager doctorManager = new DoctorManager();
+                Doctor doctor = doctorManager.getById(id);
+                if (doctor == null) {
+                    System.out.println("Doctor does not exists");
+                } else if (doctor != null) {
+                    patientManager.add(new Patient(1, name, pass,
+                            UIN, doctor));
+                    System.out.println("You've successfully added a new Patient");
+                }
+            } else if (commandLine.hasOption(deletePatient.getOpt()) || commandLine.hasOption(deletePatient.getLongOpt())) {
+                System.out.println(Integer.parseInt(commandLine.getArgList().get(0)));
+                PatientManager patientManager = new PatientManager();
+                System.out.println(patientManager.getById(Integer.parseInt(commandLine.getArgList().get(0))));
+                patientManager.delete(Integer.parseInt(commandLine.getArgList().get(0)));
+            } else if (commandLine.hasOption(showHistories.getOpt()) || commandLine.hasOption(showHistories.getLongOpt())) {
+                DiagnosisManager diagnosisManager = new DiagnosisManager();
+                System.out.println(diagnosisManager.getAll());
+            } else if (commandLine.hasOption(addHistory.getOpt()) || commandLine.hasOption(addHistory.getLongOpt())) {
+                PatientManager patientManager = new PatientManager();
+                DoctorManager doctorManager = new DoctorManager();
+                DiagnosisManager diagnosisManager = new DiagnosisManager();
+                Doctor doctor = doctorManager.getById(Integer.parseInt(commandLine.getArgList().get(1)));
+                Patient patient = patientManager.getById(Integer.parseInt(commandLine.getArgList().get(0)));
+                if (doctor == null || patient == null) {
+                    System.out.println("Doctor or patient does not exists");
+                } else if (doctor != null || patient != null) {
+                    diagnosisManager.add(new History(1, patient, doctor, commandLine.getArgList().get(2)));
+                    System.out.println("You've successfully added a new History");
+                }
+            } else if (commandLine.hasOption(deleteHistory.getOpt()) || commandLine.hasOption(deleteHistory.getLongOpt())) {
+                DiagnosisManager diagnosisManager = new DiagnosisManager();
+                diagnosisManager.delete(Integer.parseInt(commandLine.getArgList().get(0)));
+            } else {
+                printFormattedOptions(options);
+            }
+        } catch (ParseException pe) {
+            System.out.println("Problems while entering data");
+        } catch (Exception pe) {
+            System.out.println(pe.getMessage());
+        }
+    }*/
 }

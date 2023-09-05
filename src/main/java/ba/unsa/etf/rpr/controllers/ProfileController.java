@@ -1,6 +1,6 @@
 package ba.unsa.etf.rpr.controllers;
 
-import ba.unsa.etf.rpr.bussines.UserManager;
+import ba.unsa.etf.rpr.business.UserManager;
 import ba.unsa.etf.rpr.domain.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

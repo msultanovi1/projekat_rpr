@@ -1,8 +1,7 @@
-package ba.unsa.etf.rpr.bussines;
+package ba.unsa.etf.rpr.business;
 
 import ba.unsa.etf.rpr.dao.DaoFactory;
 import ba.unsa.etf.rpr.domain.Book;
-import ba.unsa.etf.rpr.domain.Genre;
 import ba.unsa.etf.rpr.exceptions.MyBookListException;
 
 import java.util.List;
@@ -55,6 +54,12 @@ public class BookManager implements Manager<Book>{
             }
         }
         DaoFactory.bookDao().add(item);
+    }
+
+    void checkNUINameAndPassword(Long UIN) throws MyBookListException {
+        if (String.valueOf(UIN).length() != 7) {
+            throw new MyBookListException("UIN must have 7 digits.");
+        }
     }
 
     public Book searchByName(String name) throws MyBookListException {

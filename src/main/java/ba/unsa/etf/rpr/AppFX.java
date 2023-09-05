@@ -5,6 +5,11 @@ import ba.unsa.etf.rpr.controllers.WindowController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/**
+ * A full representation of the created MyBookList application through the use of the Graphical User Interface (GUI)
+ * @author Minela Sultanović
+ */
+
 public class AppFX extends Application {
 
     @Override

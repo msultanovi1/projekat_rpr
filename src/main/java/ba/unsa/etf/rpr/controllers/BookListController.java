@@ -1,7 +1,7 @@
 package ba.unsa.etf.rpr.controllers;
 
-import ba.unsa.etf.rpr.bussines.StatusManager;
-import ba.unsa.etf.rpr.bussines.UserManager;
+import ba.unsa.etf.rpr.business.StatusManager;
+import ba.unsa.etf.rpr.business.UserManager;
 import ba.unsa.etf.rpr.domain.Status;
 import ba.unsa.etf.rpr.domain.User;
 import ba.unsa.etf.rpr.exceptions.MyBookListException;

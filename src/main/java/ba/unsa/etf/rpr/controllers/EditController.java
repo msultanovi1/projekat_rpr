@@ -1,6 +1,6 @@
 package ba.unsa.etf.rpr.controllers;
 
-import ba.unsa.etf.rpr.bussines.*;
+import ba.unsa.etf.rpr.business.*;
 import ba.unsa.etf.rpr.domain.*;
 import ba.unsa.etf.rpr.exceptions.MyBookListException;
 import javafx.collections.FXCollections;
