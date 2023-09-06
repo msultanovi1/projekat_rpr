@@ -1,13 +1,17 @@
 package ba.unsa.etf.rpr.business;
 
 import ba.unsa.etf.rpr.dao.DaoFactory;
-import ba.unsa.etf.rpr.domain.Book;
 import ba.unsa.etf.rpr.domain.Status;
 import ba.unsa.etf.rpr.domain.User;
 import ba.unsa.etf.rpr.exceptions.MyBookListException;
 
 import java.util.List;
 
+/**
+ * Business logic layer for managing statuses
+ * StatusManager is a class that models our work with Status table in the database
+ * and validates all statuses before being sent to the database.
+ */
 public class StatusManager implements Manager<Status>{
 
     private static StatusManager instance = null;
@@ -56,15 +60,14 @@ public class StatusManager implements Manager<Status>{
         DaoFactory.statusDao().add(item);
     }
 
+    /**
+     * Method that searches statuses by user
+     * @param user which book statuses we want to search
+     * @return list of statuses that belong to this user
+     * @throws MyBookListException if there's no statuses linked to this user
+     */
     public List<Status> searchByUser(User user) throws MyBookListException {
         return DaoFactory.statusDao().searchByUser(user);
     }
 
-    public List<Status> searchByBook(Book book) throws MyBookListException {
-        return DaoFactory.statusDao().searchByBook(book);
-    }
-
-    public Status searchByUserAndBook(User user, Book book) throws MyBookListException {
-        return DaoFactory.statusDao().searchByUserAndBook(user, book);
-    }
 }

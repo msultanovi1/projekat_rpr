@@ -10,6 +10,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents the implementation of the StatusDao interface using MySQL
+ * It contains all the methods that are needed to work with the Status table in the database
+ */
 public class StatusDaoSQLImpl extends AbstractDao<Status> implements StatusDao{
 
 
@@ -19,6 +23,10 @@ public class StatusDaoSQLImpl extends AbstractDao<Status> implements StatusDao{
         super("Status");
     }
 
+    /**
+     * This method represents the implementation of the Singleton Design Pattern in this application
+     * @return an instance of this class
+     */
     public static StatusDaoSQLImpl getInstance() {
         if(instance == null) instance = new StatusDaoSQLImpl();
         return instance;

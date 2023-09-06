@@ -8,6 +8,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents the implementation of the GenreDao interface using MySQL
+ * It contains all the methods that are needed to work with the Genre table in the database
+ */
 public class GenreDaoSQLImpl extends AbstractDao<Genre> implements GenreDao {
 
 
@@ -17,6 +21,10 @@ public class GenreDaoSQLImpl extends AbstractDao<Genre> implements GenreDao {
         super("Genre");
     }
 
+    /**
+     * This method represents the implementation of the Singleton Design Pattern in this application
+     * @return an instance of this class
+     */
     public static GenreDaoSQLImpl getInstance() {
         if (instance == null) instance = new GenreDaoSQLImpl();
         return instance;

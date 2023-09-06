@@ -1,8 +1,7 @@
 package ba.unsa.etf.rpr.domain;
 
 /**
- * Idable is an interface that has to be implemented in every class
- * that represents an entity in the Data Base
+ * An interface for objects that have an associated unique identifier.
  */
 public interface Idable {
 

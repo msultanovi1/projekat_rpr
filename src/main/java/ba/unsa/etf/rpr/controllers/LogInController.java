@@ -7,7 +7,9 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 
-
+/**
+ * The JavaFX controller for logging in users to the application
+ */
 public class LogInController extends WindowController{
 
 
@@ -17,11 +19,12 @@ public class LogInController extends WindowController{
     public TextField username;
     @FXML
     public PasswordField password;
-    @FXML
-    public Label message;
 
     public LogInController(){}
 
+    /**
+     * The method that is responsible for logging the user into the system
+     */
     public void userLogIn(){
         try {
             openWindow("Profile", "/fxml/profileScreen.fxml", new ProfileController(new UserManager().getByNameAndPassword(username.getText().trim(), password.getText().trim())), (Stage)buttonLogIn.getScene().getWindow(), false);

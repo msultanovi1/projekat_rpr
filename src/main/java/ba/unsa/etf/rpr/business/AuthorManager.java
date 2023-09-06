@@ -6,6 +6,11 @@ import ba.unsa.etf.rpr.exceptions.MyBookListException;
 
 import java.util.List;
 
+/**
+ * Business logic layer for managing authors
+ * AuthorManager is a class that models our work with Author table in the database
+ * and validates all authors before being sent to the database.
+ */
 public class AuthorManager implements Manager<Author> {
 
     private static AuthorManager instance = null;
@@ -56,6 +61,12 @@ public class AuthorManager implements Manager<Author> {
         DaoFactory.authorDao().add(item);
     }
 
+    /**
+     * Method that searches authors by name
+     * @param name of the author
+     * @return list of authors that fit criteria
+     * @throws MyBookListException if the author with this name can't be found
+     */
     public List<Author> searchByName(String name) throws MyBookListException {
         return DaoFactory.authorDao().searchByName(name);
     }

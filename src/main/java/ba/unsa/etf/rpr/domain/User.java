@@ -2,6 +2,11 @@ package ba.unsa.etf.rpr.domain;
 
 import java.util.Objects;
 
+/**
+ * User class is a Java Bean that represents one table of the database used for users with essential properties
+ * including unique ID, name, password, and an 'about me' description.
+ */
+
 public class User implements Idable {
 
     private int id;

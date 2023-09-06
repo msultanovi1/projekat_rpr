@@ -13,8 +13,19 @@ import java.io.IOException;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
+/**
+ * This controller is used for opening windows with their required JavaFX components as well as closing them
+ */
 public class WindowController {
 
+    /**
+     * The method responsible for opening new windows in addition to closing the previous one or using it as a parent for the new one
+     * @param title the title of the new window
+     * @param file the file location of the fxml code used to design the window
+     * @param controller the controller responsible for implementing JavaFX components from the corresponding fxml file
+     * @param previousStage the previously opened stage
+     * @param modality the parameter that determines the modality of the soon-to-be opened stage
+     */
     public static void openWindow(String title, String file, Object controller, Stage previousStage, boolean modality) {
         try {
             FXMLLoader loader = new FXMLLoader(WindowController.class.getResource(file));
@@ -43,11 +54,20 @@ public class WindowController {
         }
     }
 
+    /**
+     * The method responsible for closing (mostly modal) windows
+     * @param node the JavaFX component from which the stage (window) is derived used for closing the window
+     */
     public static void closeWindow(Node node) {
         Stage stage = (Stage)node.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * The method responsible for informing the user about a failed or a successful event
+     * @param alertType the type of alert to be opened, also defines the title of the alert window
+     * @param message a string that is consisted of two parts which are separated into the header text and content text of the alert
+     */
     public static void openAlert(Alert.AlertType alertType, String message) {
         Alert alert = new Alert(alertType);
         switch (alertType) {

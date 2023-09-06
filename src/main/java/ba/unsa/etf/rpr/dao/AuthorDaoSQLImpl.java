@@ -8,6 +8,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents the implementation of the AuthorDao interface using MySQL
+ * It contains all the methods that are needed to work with the Author table in the database
+ */
 public class AuthorDaoSQLImpl extends AbstractDao<Author> implements AuthorDao{
 
 
@@ -17,14 +21,13 @@ public class AuthorDaoSQLImpl extends AbstractDao<Author> implements AuthorDao{
         super("Author");
     }
 
+    /**
+     * This method represents the implementation of the Singleton Design Pattern in this application
+     * @return an instance of this class
+     */
     public static AuthorDaoSQLImpl getInstance() {
         if(instance == null) instance = new AuthorDaoSQLImpl();
         return instance;
-    }
-
-    public static void removeInstance(){
-        if(instance!=null)
-            instance = null;
     }
 
     @Override

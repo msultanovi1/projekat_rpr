@@ -6,6 +6,11 @@ import ba.unsa.etf.rpr.exceptions.MyBookListException;
 
 import java.util.List;
 
+/**
+ * Business logic layer for managing books
+ * BookManager is a class that models our work with Book table in the database
+ * and validates all books before being sent to the database.
+ */
 public class BookManager implements Manager<Book>{
 
     private static BookManager instance = null;
@@ -56,12 +61,12 @@ public class BookManager implements Manager<Book>{
         DaoFactory.bookDao().add(item);
     }
 
-    void checkNUINameAndPassword(Long UIN) throws MyBookListException {
-        if (String.valueOf(UIN).length() != 7) {
-            throw new MyBookListException("UIN must have 7 digits.");
-        }
-    }
-
+    /**
+     * Method that searches books by name
+     * @param name of the book
+     * @return book that fit criteria
+     * @throws MyBookListException if the book with this name can't be found
+     */
     public Book searchByName(String name) throws MyBookListException {
         return DaoFactory.bookDao().searchByName(name);
     }

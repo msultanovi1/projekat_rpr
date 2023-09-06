@@ -2,6 +2,11 @@ package ba.unsa.etf.rpr.domain;
 
 import java.util.Objects;
 
+/**
+ * Book class is a Java Bean that represents one table of the database used for books with essential properties
+ * including unique ID, name, UIN, genre and author.
+ */
+
 public class Book implements Idable{
 
     private int id;

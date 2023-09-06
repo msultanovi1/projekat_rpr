@@ -8,6 +8,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents the implementation of the UserDao interface using MySQL
+ * It contains all the methods that are needed to work with the User table in the database
+ */
 public class UserDaoSQLImpl extends AbstractDao<User> implements UserDao{
 
     private static UserDaoSQLImpl instance = null;
@@ -16,14 +20,15 @@ public class UserDaoSQLImpl extends AbstractDao<User> implements UserDao{
         super("User");
     }
 
+    /**
+     * This method represents the implementation of the Singleton Design Pattern in this application
+     * @return an instance of this class
+     */
     public static UserDaoSQLImpl getInstance() {
-        if(instance == null) instance = new UserDaoSQLImpl();
+        if(instance == null) {
+            instance = new UserDaoSQLImpl();
+        }
         return instance;
-    }
-
-    public static void removeInstance(){
-        if(instance!=null)
-            instance = null;
     }
 
     @Override

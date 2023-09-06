@@ -6,6 +6,10 @@ import java.sql.SQLException;
 
 public class DataBaseDao {
 
+    /**
+     * DataBaseDao represents the class that is connecting us to the database
+     * It implements the singleton design pattern
+     */
     private static Connection connection;
 
     private DataBaseDao(){}

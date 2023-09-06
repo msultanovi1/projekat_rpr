@@ -3,7 +3,8 @@ package ba.unsa.etf.rpr.domain;
 import java.util.Objects;
 
 /**
- * Genre Java Bean
+ * Genre class is a Java Bean that represents one table of the database used for genres od the books with properties
+ * for unique ID and name.
  */
 
 public class Genre implements Idable{

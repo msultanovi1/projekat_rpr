@@ -2,6 +2,11 @@ package ba.unsa.etf.rpr.domain;
 
 import java.util.Objects;
 
+/**
+ * Status class is a Java Bean that represents one table of the database used for statuses of a user's interaction
+ * with a book, with essential properties including unique ID, status, score, user and book.
+ */
+
 public class Status implements Idable{
 
     private int id;

@@ -16,6 +16,9 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * The JavaFX controller for adding and editing existing books in users list
+ */
 public class EditController extends WindowController{
 
 
@@ -56,6 +59,11 @@ public class EditController extends WindowController{
     public Button buttonConfirmAdd;
     public Button buttonCloseAdd;
 
+    /**
+     * A constructor that initializes the user that has invoked the opening of this window
+     * and all the existing books in database along with authors and book genres
+     * @param user the user that requested the opening of this window
+     */
     public EditController(User user) {
         this.user = user;
         try {
@@ -64,10 +72,14 @@ public class EditController extends WindowController{
             authors = authorManager.getAll();
             books = bookManager.getAll();
         }catch (MyBookListException exception){
-            openAlert(Alert.AlertType.ERROR, "Unexpected error occured|" + exception.getMessage());
+            openAlert(Alert.AlertType.ERROR, "Unexpected error occurred|" + exception.getMessage());
         }
     }
 
+    /**
+     * The method that gets called right before the opening of this window
+     * Its purpose is to initialize all and restrict some JavaFX components shown in the created window
+     */
     @FXML
     public void initialize(){
         try {
@@ -149,6 +161,11 @@ public class EditController extends WindowController{
         emptyAllTextFields();
     }
 
+    /**
+     * Method that is responsible for adding a book to the list
+     * In case of no errors, an alert will be shown that will confirm the successful addition/edit of a court case with the ID of the corresponding case
+     * In case of any problems, an alert will pop up that will explain the reason of the error as well as uncover some of its extra details
+     */
     public void confirmAdd(ActionEvent actionEvent) {
         try{
             String bookNameAddBoxFieldText = String.valueOf(bookNameAddBoxField.getValue());
@@ -178,10 +195,17 @@ public class EditController extends WindowController{
         }
     }
 
+    /**
+     * This method calls its parent's closeWindow method which closes this window
+     */
     public void closeAdd(ActionEvent actionEvent) {
         closeWindow(buttonCloseAdd);
     }
 
+    /**
+     * Clicking on the corresponding button opens up new window where the user can add new books to database
+     * if the book he wants to add isn't shown as an option, along with authors and genres
+     */
     public void addNewBook(ActionEvent actionEvent) {
         openWindow("Add new book", "/fxml/addNewBookScreen.fxml", new AddNewBookController(), (Stage) buttonAddNewBook.getScene().getWindow(), true);
         try {
@@ -194,6 +218,11 @@ public class EditController extends WindowController{
 
     }
 
+    /**
+     * Method that is responsible for editing a book to the list
+     * In case of no errors, an alert will be shown that will confirm the successful addition/edit of a court case with the ID of the corresponding case
+     * In case of any problems, an alert will pop up that will explain the reason of the error as well as uncover some of its extra details
+     */
     public void confirmEdit(ActionEvent actionEvent) {
         try{
             String idEditBoxFieldText = String.valueOf(idEditBoxField.getValue());
@@ -224,10 +253,16 @@ public class EditController extends WindowController{
         }
     }
 
+    /**
+     * This method calls its parent's closeWindow method which closes this window
+     */
     public void closeEdit(ActionEvent actionEvent) {
         closeWindow(buttonCloseEdit);
     }
 
+    /**
+     * Method that resets the contents of (almost) all fields and combo boxes in the shown window
+     */
     private void emptyAllTextFields() {
         bookNameEditBoxField.setText("");
         UINEditField.setText("");

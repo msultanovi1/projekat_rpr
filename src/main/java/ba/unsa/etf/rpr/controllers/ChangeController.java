@@ -10,6 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+/**
+ * The JavaFX controller for modifying user's name and password
+ */
 public class ChangeController extends WindowController{
 
     private final UserManager userManager = UserManager.getInstance();
@@ -28,15 +31,26 @@ public class ChangeController extends WindowController{
     public Button buttonConfirm;
     public Button buttonCancel;
 
+    /**
+     * A constructor that initializes the user that has invoked the opening of this window
+     * @param user the user that requested the opening of this window
+     */
     public ChangeController(User user) {
         this.user = user;
     }
 
+    /**
+     * The method that gets called right before the opening of this window
+     * Its only purpose is to initialize the JavaFX text field component for the user's current name
+     */
     @FXML
     public void initialize() {
         previousUsernameField.setText(user.getName());
     }
 
+    /**
+     * Method that acquires the values in the text fields of this controller's window
+     */
     private void loadFields() {
         previousUsername = previousUsernameField.getText().trim();
         previousPassword = previousPasswordField.getText().trim();
@@ -45,6 +59,10 @@ public class ChangeController extends WindowController{
         confirmedPassword = confirmedPasswordField.getText().trim();
     }
 
+    /**
+     * A helper method that validates the values of the text fields currently present on the screen
+     * @throws MyBookListException in case of empty or mismatched inputs of text fields
+     */
     private void validateFields() throws MyBookListException {
         loadFields();
         if (previousUsername.isEmpty()) {
@@ -78,10 +96,18 @@ public class ChangeController extends WindowController{
         }
     }
 
+    /**
+     * This method calls its parent's closeWindow method which closes this window
+     */
     public void closeChangeScreen(ActionEvent actionEvent) {
         closeWindow(buttonCancel);
     }
 
+    /**
+     * Clicking on the confirm button in this window the validation process starts,
+     * after which the user's name and password change.
+     * In case of an error an alert will pop up showing us the error and some of its details
+     */
     public void changeNamePassword(ActionEvent actionEvent) {
         try {
             validateFields();

@@ -16,9 +16,9 @@ import javafx.stage.Stage;
 import java.util.List;
 import java.util.Optional;
 
-import static java.lang.String.valueOf;
-
-
+/**
+ * The JavaFX controller for the overview of users' BookList
+ */
 public class BookListController extends WindowController{
 
     private final UserManager userManager = UserManager.getInstance();
@@ -41,15 +41,24 @@ public class BookListController extends WindowController{
     public TableColumn<Status, String> bookStatusColumn;
     public TableColumn<Status, Double> bookScoreColumn;
 
+    /**
+     * A constructor that initializes the user that has invoked the opening of this window
+     * and also statuses that are linked to this user.
+     * @param user the user that requested the opening of this window
+     */
     public BookListController(User user) {
         this.user = user;
         try {
             statuses = statusManager.searchByUser(user);
         }catch (MyBookListException exception){
-            openAlert(Alert.AlertType.ERROR, "Unexpected error occured|" + exception.getMessage());
+            openAlert(Alert.AlertType.ERROR, "Unexpected error occurred|" + exception.getMessage());
         }
     }
 
+    /**
+     * The method that gets called right before the opening of this window
+     * Its purpose is to initialize all and restrict some JavaFX components shown in the created window
+     */
     @FXML
     public void initialize() throws MyBookListException{
 
@@ -85,19 +94,29 @@ public class BookListController extends WindowController{
         });
         refreshAll();
     }
+
+    /**
+     * Clicking on the corresponding button closes this window and opens profile window
+     */
     @FXML
     public void returnToProfile(ActionEvent actionEvent) {
         openWindow("Profile", "/fxml/profileScreen.fxml", new ProfileController(user), (Stage)buttonReturnToProfile.getScene().getWindow(), false);
     }
 
-    @FXML
-    public void searchBook(ActionEvent actionEvent) {
-    }
+    /**
+     * Clicking on the corresponding button opens up new window where the user can edit some existing statuses
+     * but also add some new ones along with adding authors, genres and books
+     */
     @FXML
     public void addEditBookInfo(ActionEvent actionEvent) {
         openWindow("Edit MyBookList", "/fxml/editBookListScreenNew.fxml", new EditController(user), (Stage)buttonAddEditBook.getScene().getWindow(), true);
         refreshAll();
     }
+
+    /**
+     * A method that removes a book from the users book list with the entered ID shown in the book list table
+     * In case of any errors occurring a pop-up window will be shown giving more details about the error itself
+     */
     @FXML
     public void removeBook(ActionEvent actionEvent) {
         try {
@@ -109,7 +128,7 @@ public class BookListController extends WindowController{
             Optional<ButtonType> result = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to remove the book with id of " + id, ButtonType.YES, ButtonType.NO).showAndWait();
             if (result.isPresent() && result.get() == ButtonType.YES) {
                 statusManager.delete(Integer.parseInt(bookStatusIdFieldTxt));
-                openAlert(Alert.AlertType.INFORMATION, "Deletion success|choosen book successfully removed from your book list.");
+                openAlert(Alert.AlertType.INFORMATION, "Deletion success|chosen book successfully removed from your book list.");
                 refreshAll();
                 bookStatusIdField.setText("");
             }
@@ -123,6 +142,10 @@ public class BookListController extends WindowController{
         }
     }
 
+    /**
+     * Method that reacquires all users and all required statuses to be shown
+     * It usually gets called after modifications have been made
+     */
     private void refreshAll() {
         try {
             if (user != null) {
@@ -132,7 +155,7 @@ public class BookListController extends WindowController{
         }
         catch (MyBookListException exception) {
             if (!exception.getMessage().equals("Database is empty - no books found.")) {
-                openAlert(Alert.AlertType.ERROR, "Unexpected error occured|" + exception.getMessage());
+                openAlert(Alert.AlertType.ERROR, "Unexpected error occurred|" + exception.getMessage());
                 System.exit(-1);
             }
         }

@@ -2,6 +2,11 @@ package ba.unsa.etf.rpr.domain;
 
 import java.util.Objects;
 
+/**
+ * Author class is a Java Bean that represents one table of the database used for authors od the books with properties
+ * for unique ID and name.
+ */
+
 public class Author implements Idable {
 
     private int id;

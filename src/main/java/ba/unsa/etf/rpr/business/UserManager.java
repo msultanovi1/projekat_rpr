@@ -6,6 +6,11 @@ import ba.unsa.etf.rpr.exceptions.MyBookListException;
 
 import java.util.List;
 
+/**
+ * Business logic layer for managing users
+ * UserManager is a class that models our work with User table in the database
+ * and validates all users before being sent to the database.
+ */
 public class UserManager implements Manager<User> {
 
     private static UserManager instance = null;
@@ -55,6 +60,13 @@ public class UserManager implements Manager<User> {
         DaoFactory.userDao().add(item);
     }
 
+    /**
+     * Method that validates the name and the password and searches for the user with matching parameters in the database
+     * @param name of the user
+     * @param password of the user
+     * @return user with provided name and password
+     * @throws MyBookListException if provided name and password are not matching any user credentials in the database
+     */
     public User getByNameAndPassword(String name, String password) throws MyBookListException{
         try {
             checkNameAndPassword(name, password);
@@ -69,6 +81,12 @@ public class UserManager implements Manager<User> {
         }
     }
 
+    /**
+     * Method that checks the format of name and password of a user
+     * @param name whose format is checked
+     * @param password whose format is checked
+     * @throws MyBookListException if one of the parameters or both do not satisfy the required format
+     */
     void checkNameAndPassword(String name, String password) throws MyBookListException {
         if (name.length() > 64) {
             throw new MyBookListException("Name mustn't be longer than 64 characters.");
@@ -78,6 +96,11 @@ public class UserManager implements Manager<User> {
         }
     }
 
+    /**
+     * Method that modifies the name and/or password of the user sent through the parameter
+     * @param user whose name and/or password we want to update
+     * @throws MyBookListException if new users name and password do not pass validation
+     */
     public void updateNameAndPassword(User user) throws MyBookListException {
         try {
             checkNameAndPassword(user.getName(), user.getPassword());
@@ -89,9 +112,5 @@ public class UserManager implements Manager<User> {
             }
             throw exception;
         }
-    }
-
-    private boolean checkAdmin(String name, String password) {
-        return name.equalsIgnoreCase("admin") && password.equalsIgnoreCase("sifraadmina");
     }
 }

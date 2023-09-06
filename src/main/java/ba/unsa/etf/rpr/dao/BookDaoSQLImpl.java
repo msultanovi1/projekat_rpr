@@ -10,6 +10,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents the implementation of the BookDao interface using MySQL
+ * It contains all the methods that are needed to work with the Book table in the database
+ */
 public class BookDaoSQLImpl extends AbstractDao<Book> implements BookDao{
 
     private static BookDaoSQLImpl instance = null;
@@ -18,16 +22,14 @@ public class BookDaoSQLImpl extends AbstractDao<Book> implements BookDao{
         super("Book");
     }
 
+    /**
+     * This method represents the implementation of the Singleton Design Pattern in this application
+     * @return an instance of this class
+     */
     public static BookDaoSQLImpl getInstance() {
         if(instance == null) instance = new BookDaoSQLImpl();
         return instance;
     }
-
-    public static void removeInstance(){
-        if(instance!=null)
-            instance = null;
-    }
-
 
     @Override
     public Book rowToObject(ResultSet rs) throws MyBookListException {

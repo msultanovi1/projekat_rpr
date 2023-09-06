@@ -1,5 +1,8 @@
 package ba.unsa.etf.rpr.dao;
 
+/**
+ * This class represents the implementation of the Factory Design Pattern in this application
+ */
 
 public class DaoFactory {
 
