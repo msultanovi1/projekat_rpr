@@ -92,14 +92,6 @@ public class StatusDaoSQLImpl extends AbstractDao<Status> implements StatusDao{
         }
     }
 
-    @Override
-    public Status searchById(int id) {
-        try {
-            return super.executeQueryUnique("SELECT * FROM Status WHERE id = ?", new Object[]{id});
-        } catch (MyBookListException e) {
-            throw new RuntimeException();
-        }
-    }
 
 
 }
